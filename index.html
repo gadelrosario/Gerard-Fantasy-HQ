@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07101c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Fantasy HQ">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg">
+<title>Gerard Fantasy HQ</title>
+<style>
+:root{--bg:#07101c;--panel:#121d2d;--line:#2b3a52;--text:#f5f7fb;--muted:#9caabd;--accent:#72a5ff;--good:#5fd892;--warn:#ffd166;--bad:#ff7777}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:linear-gradient(145deg,#06101c,#111b2b);color:var(--text);font:14px system-ui,-apple-system,Segoe UI,sans-serif}
+button,input,select{font:inherit}header{position:sticky;top:0;z-index:30;padding:calc(12px + env(safe-area-inset-top)) 14px 12px;background:rgba(7,16,28,.97);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+h1{font-size:19px;margin:0}.sub{font-size:11px;color:var(--muted);margin-top:3px}.shell{max-width:1500px;margin:auto;padding:10px 10px calc(78px + env(safe-area-inset-bottom))}
+.desktop{display:grid;grid-template-columns:310px minmax(560px,1fr) 325px;gap:12px}.card{background:rgba(18,29,45,.98);border:1px solid var(--line);border-radius:14px;padding:13px;margin-bottom:11px}
+.title{font-weight:850;margin-bottom:9px}.mode{display:inline-block;padding:4px 7px;border-radius:999px;background:#194730;color:#92edbc;font-size:10px;font-weight:900}
+select,input,button{background:#0b1524;color:var(--text);border:1px solid #35455f;border-radius:9px;padding:9px}button{cursor:pointer;font-weight:780}.primary{background:#245295;border-color:#5487da}.mine{border-color:#4d9d72}.other{border-color:#61728b}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:7px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:9px}.stat{background:#0b1524;border-radius:9px;padding:8px;text-align:center}.stat b{font-size:17px;display:block}
+.hero{background:linear-gradient(145deg,#17365f,#172338);border:1px solid #40689e;border-radius:13px;padding:14px}.heroName{font-size:26px;font-weight:950;margin:3px 0}
+.chips{display:flex;gap:5px;flex-wrap:wrap}.chip{font-size:10px;padding:4px 7px;border-radius:999px;background:#293951}.reason{line-height:1.42;color:#dbe3ef;margin:8px 0}.alt{display:flex;gap:8px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}.alt .n{width:22px;color:var(--muted)}.alt .p{flex:1}.meta{font-size:10px;color:var(--muted)}
+table{width:100%;border-collapse:collapse}th,td{padding:8px 6px;border-bottom:1px solid #25334a;text-align:left}th{font-size:10px;color:var(--muted);position:sticky;top:0;background:#121d2d}tr:hover{background:#19263a}.btnsm{padding:5px 7px;font-size:10px}
+.slot{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #25334a}.empty{color:#718097}.note{font-size:11px;color:var(--muted);line-height:1.48}.good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+.warnbox{border-left:3px solid var(--warn);padding:9px;background:#1b2638;border-radius:9px}.blueprint{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}.bp{padding:7px 3px;text-align:center;border-radius:8px;background:#0d1726;color:#74849a;font-size:10px}.bp.done{background:#17482f;color:#8eebba}.bp.next{outline:2px solid var(--accent);color:#dbe8ff}
+.cpi{font-size:28px;font-weight:950}.mobile-nav,.mobile-view{display:none}.evidence-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.evidence{background:#0b1524;border-radius:10px;padding:9px}.evidence b{display:block;font-size:12px}.pref{display:flex;gap:5px;flex-wrap:wrap}.pref button.active{background:#244e7f}
+@media(max-width:900px){
+ .desktop{display:none}.mobile-view.active{display:block}.mobile-nav{display:grid;position:fixed;left:0;right:0;bottom:0;z-index:40;grid-template-columns:repeat(5,1fr);background:#091321;border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+ .mobile-nav button{border:0;background:transparent;padding:5px 1px;font-size:9px}.heroName{font-size:29px}.card{padding:12px;margin-bottom:9px}.mobile-row{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+}
+</style>
+</head>
+<body>
+<header><h1>Gerard Fantasy HQ</h1><div class="sub">Version 1.1 • Gerard Mode • simple draft-day view, deeper evidence behind a tap</div></header>
+<div class="shell">
+
+<div class="desktop">
+<section>
+<div class="card"><div class="title">Draft setup <span class="mode">GERARD MODE</span></div>
+<div class="grid2"><label>Draft slot<select id="dSlot"></select></label><label>Overall pick<input id="dPick" type="number" min="1" value="1"></label></div>
+<div class="stats"><div class="stat"><b id="dRound">1</b>Round</div><div class="stat"><b id="dPickLabel">1.01</b>Pick</div><div class="stat"><b id="dUntil">NOW</b>Until yours</div></div>
+<div style="margin-top:8px"><button onclick="undo()">Undo</button> <button onclick="resetAll()">Reset</button> <button onclick="autoPickOthers()">Auto-pick to me</button></div></div>
+<div class="card"><div class="title">Blueprint</div><div id="dBlueprint" class="blueprint"></div><div id="dBpStatus" class="note" style="margin-top:7px"></div></div>
+<div class="card"><div class="title">Your roster</div><div id="dRoster"></div></div>
+<div class="card"><div class="title">Bye weeks</div><div id="dByes" class="note"></div></div>
+</section>
+
+<section>
+<div class="card"><div class="title">Best decision now</div><div id="dHero" class="hero"></div><div id="dAlts"></div></div>
+<div class="card"><div class="title">Available board</div>
+<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px"><button onclick="setFilter('ALL')">ALL</button><button onclick="setFilter('RB')">RB</button><button onclick="setFilter('WR')">WR</button><button onclick="setFilter('QB')">QB</button><button onclick="setFilter('TE')">TE</button></div>
+<input id="dSearch" oninput="renderBoard()" placeholder="Search players" style="width:100%;margin-bottom:7px">
+<div style="max-height:650px;overflow:auto"><table><thead><tr><th>Ovr</th><th>Player</th><th>Pos</th><th>FL</th><th>BDGE</th><th>Bye</th><th>Intel</th><th></th></tr></thead><tbody id="dBoard"></tbody></table></div></div>
+</section>
+
+<section>
+<div class="card"><div class="title">On the clock</div><div id="dClock" class="warnbox"></div></div>
+<div class="card"><div class="title">Practice CPI</div><div class="cpi"><span id="dCpi">10.0</span>%</div><div id="dOutlook" class="note"></div></div>
+<div class="card"><div class="title">League chaos</div><div id="dChaos" style="font-size:22px;font-weight:900"></div><div id="dChaosNote" class="note"></div></div>
+<div class="card"><div class="title">Player evidence card</div><div id="dDetail" class="note">Click a player to see the optional evidence layer.</div></div>
+<div class="card"><div class="title">Gerard adjustments</div><div id="dPrefs" class="note">Select a player, then mark Love / Neutral / Cautious / Avoid.</div></div>
+<div class="card"><div class="title">History</div><div id="dHistory" class="note"></div></div>
+</section>
+</div>
+
+<section id="mDraft" class="mobile-view active">
+<div class="card"><div class="stats"><div class="stat"><b id="mRound">1</b>Round</div><div class="stat"><b id="mPickLabel">1.01</b>Pick</div><div class="stat"><b id="mUntil">NOW</b>Until yours</div></div></div>
+<div id="mHero" class="card hero"></div>
+<div class="card"><div class="title">Other options</div><div id="mAlts"></div></div>
+<div class="card"><button onclick="autoPickOthers()">Auto-pick to me</button> <button onclick="undo()">Undo</button></div>
+</section>
+
+<section id="mBoardView" class="mobile-view">
+<div class="card"><input id="mSearch" oninput="renderBoard()" placeholder="Search players" style="width:100%;margin-bottom:7px">
+<div style="display:flex;gap:5px;overflow:auto;margin-bottom:7px"><button onclick="setFilter('ALL')">ALL</button><button onclick="setFilter('RB')">RB</button><button onclick="setFilter('WR')">WR</button><button onclick="setFilter('QB')">QB</button><button onclick="setFilter('TE')">TE</button></div><div id="mBoard"></div></div>
+</section>
+
+<section id="mTeam" class="mobile-view">
+<div class="card"><div class="title">Your roster</div><div id="mRoster"></div></div>
+<div class="card"><div class="title">Blueprint</div><div id="mBlueprintText" class="note"></div></div>
+<div class="card"><div class="title">Practice CPI</div><div class="cpi"><span id="mCpi">10.0</span>%</div><div id="mOutlook" class="note"></div></div>
+</section>
+
+<section id="mEvidence" class="mobile-view">
+<div class="card"><div class="title">Evidence card</div><div id="mDetail" class="note">Tap a player in the Board screen.</div></div>
+<div class="card"><div class="title">Gerard adjustment</div><div id="mPrefs" class="note">Select a player first.</div></div>
+</section>
+
+<section id="mSetup" class="mobile-view">
+<div class="card"><div class="title">Setup <span class="mode">GERARD MODE</span></div>
+<div class="mobile-row"><span>Draft slot</span><select id="mSlot"></select></div><div class="mobile-row"><span>Overall pick</span><input id="mPick" type="number" min="1" value="1" style="width:90px"></div>
+<div style="margin-top:9px"><button onclick="resetAll()">Reset draft</button></div></div>
+<div class="card"><div class="title">Default blueprint</div><div class="note">RB → WR → WR → RB → TE/QB → QB/TE, then best available. Value Override can break the pattern.</div></div>
+</section>
+</div>
+<nav class="mobile-nav"><button onclick="showMobile('mDraft')">🏈<br>Draft</button><button onclick="showMobile('mBoardView')">📋<br>Board</button><button onclick="showMobile('mTeam')">👥<br>Team</button><button onclick="showMobile('mEvidence')">🧠<br>Evidence</button><button onclick="showMobile('mSetup')">⚙️<br>Setup</button></nav>
+
+<script>
+let players=[],drafted=[],mine=[],history=[],filter="ALL",selectedId=null;
+const blueprint=["RB","WR","WR","RB","TE/QB","QB/TE"];
+const rosterSlots=["QB","RB1","RB2","WR1","WR2","WR3","TE","FLEX1","FLEX2","K","DEF","BENCH1","BENCH2","BENCH3","BENCH4","BENCH5"];
+async function init(){players=await fetch("data/players.json").then(r=>r.json());for(let i=1;i<=10;i++){for(const id of["dSlot","mSlot"]){let o=document.createElement("option");o.value=i;o.textContent=i;document.getElementById(id).appendChild(o)}}document.getElementById("dSlot").value=10;document.getElementById("mSlot").value=10;wire();load();renderAll();if("serviceWorker"in navigator)navigator.serviceWorker.register("service-worker.js")}
+function wire(){dSlot.onchange=e=>{mSlot.value=e.target.value;save();renderAll()};mSlot.onchange=e=>{dSlot.value=e.target.value;save();renderAll()};dPick.oninput=e=>{mPick.value=e.target.value;save();renderAll()};mPick.oninput=e=>{dPick.value=e.target.value;save();renderAll()}}
+function save(){let prefs={};players.forEach(p=>prefs[p.id]=p.gerardPreference);localStorage.setItem("gfhv11",JSON.stringify({drafted,mine,history,slot:+dSlot.value,pick:+dPick.value,prefs}))}
+function load(){try{let s=JSON.parse(localStorage.getItem("gfhv11"));if(!s)return;drafted=s.drafted||[];mine=s.mine||[];history=s.history||[];dSlot.value=s.slot||10;mSlot.value=s.slot||10;dPick.value=s.pick||1;mPick.value=s.pick||1;if(s.prefs)players.forEach(p=>p.gerardPreference=s.prefs[p.id]||"neutral")}catch(e){}}
+function info(){let p=+dPick.value||1,r=Math.ceil(p/10),ip=(p-1)%10+1,s=+dSlot.value,mp=r%2?s:11-s,next;if(ip<=mp)next=p+(mp-ip);else{let nr=r+1,np=nr%2?s:11-s;next=r*10+np}return{p,r,ip,until:next-p}}
+function counts(){let c={QB:0,RB:0,WR:0,TE:0};mine.forEach(id=>{let x=player(id);if(x)c[x.pos]++});return c}
+function expected(){return blueprint[Math.min(info().r-1,5)]||"BPA"}function fit(x){let e=expected();if(e===x.pos)return 18;if(e.includes(x.pos))return 16;if(e==="BPA")return 0;return-6}
+function gap(x){return Math.max(0,info().p-x.overall)}function prefBoost(x){return{xLove:0,love:8,neutral:0,cautious:-6,avoid:-14}[x.gerardPreference]||0}
+function status(x){if(gap(x)>=16&&fit(x)<10)return["🔴 VALUE OVERRIDE","bad"];if(gap(x)>=8&&fit(x)<10)return["🟡 FLEXIBLE PIVOT","warn"];return["🟢 STAY THE COURSE","good"]}
+function score(x){let c=counts(),s=150-x.overall*1.18+fit(x)+(x.bdgeBoost||0)+prefBoost(x);if(x.pos==="RB"&&c.RB<2)s+=12;if(x.pos==="WR"&&c.WR<3)s+=12;if(x.pos==="QB"&&info().r<3)s-=22;if(x.pos==="TE"&&info().r<2)s-=12;if(x.rookie&&((x.pos==="RB"&&c.RB<2)||(x.pos==="WR"&&c.WR<2)))s-=14;else if(x.rookie)s+=4;if(x.bdgeAvoid)s-=Math.max(0,13-gap(x)*.5);if(x.bdgeRank)s+=Math.max(-6,Math.min(6,((x.overall/3)-x.bdgeRank)*.5));s-=mine.map(player).filter(y=>y&&y.bye===x.bye).length*3;return s}
+function avail(){return players.filter(x=>!drafted.includes(x.id))}function recs(){return[...avail()].sort((a,b)=>score(b)-score(a)).slice(0,5)}
+function why(x){let r=[];if(fit(x)>10)r.push("fits blueprint");if(gap(x)>=8)r.push("fell "+gap(x)+" spots");if(x.gerardPreference!=="neutral")r.push("Gerard: "+x.gerardPreference);if(x.bdgeLabels?.length)r.push("BDGE: "+x.bdgeLabels.slice(0,1));if(x.bdgeAvoid)r.push(gap(x)>=15?"discount offsets avoid":"avoid-at-cost warning");if(x.rookie)r.push(counts()[x.pos]<2?"rookie caution":"rookie upside role");return r.join(" • ")||"best blended value"}
+function player(id){return players.find(p=>p.id===id)}function pickPlayer(id,isMine){if(drafted.includes(id))return;drafted.push(id);if(isMine)mine.push(id);history.push({pick:info().p,id,isMine});let np=info().p+1;dPick.value=np;mPick.value=np;save();renderAll()}
+function autoPickOthers(){let g=0;while(info().until>0&&g<25){let pool=avail().slice(0,Math.min(9,avail().length));if(!pool.length)break;pickPlayer(pool[Math.floor(Math.random()*pool.length)].id,false);g++}}
+function undo(){let h=history.pop();if(!h)return;drafted=drafted.filter(id=>id!==h.id);if(h.isMine)mine=mine.filter(id=>id!==h.id);let np=Math.max(1,(+dPick.value||1)-1);dPick.value=np;mPick.value=np;save();renderAll()}
+function resetAll(){drafted=[];mine=[];history=[];dPick.value=1;mPick.value=1;save();renderAll()}function setFilter(f){filter=f;renderBoard()}
+function renderHero(el,altsEl){let x=recs()[0],st=status(x);document.getElementById(el).innerHTML=`<div class="${st[1]}" style="font-weight:900">${st[0]}</div><div class="heroName">${x.name}</div><div class="chips"><span class="chip">${x.pos}${x.posRank||""}</span><span class="chip">${x.team}</span><span class="chip">Bye ${x.bye}</span><span class="chip">FL ${x.overallTier}</span>${x.bdgeRank?`<span class="chip">BDGE ${x.pos}${x.bdgeRank}</span>`:""}</div><div class="reason">${why(x)}</div><button class="primary" style="width:100%" onclick="pickPlayer(${x.id},true)">Draft ${x.name}</button>`;document.getElementById(altsEl).innerHTML=recs().slice(1).map((x,i)=>`<div class="alt"><span class="n">${i+2}</span><div class="p"><b>${x.name}</b><div class="meta">${x.pos}${x.posRank||""} • ${x.team} • ${status(x)[0]}</div></div><button class="btnsm mine" onclick="pickPlayer(${x.id},true)">Mine</button><button class="btnsm other" onclick="pickPlayer(${x.id},false)">Other</button></div>`).join("")}
+function renderBoard(){let q=(dSearch.value||mSearch.value||"").toLowerCase(),list=avail().filter(x=>(filter==="ALL"||x.pos===filter)&&x.name.toLowerCase().includes(q));dBoard.innerHTML=list.map(x=>`<tr><td>${x.overall}</td><td><b onclick="showDetail(${x.id})" style="cursor:pointer">${x.name}</b></td><td>${x.pos}${x.posRank||""}</td><td>${x.overallTier}/${x.posTier||"—"}</td><td>${x.bdgeRank?x.pos+x.bdgeRank:"—"}</td><td>${x.bye}</td><td>${x.bdgeAvoid?'<span class="bad">AVOID</span> ':''}${x.mixedIntel?'<span class="warn">MIXED</span> ':''}</td><td><button class="btnsm mine" onclick="pickPlayer(${x.id},true)">Mine</button> <button class="btnsm other" onclick="pickPlayer(${x.id},false)">Other</button></td></tr>`).join("");mBoard.innerHTML=list.slice(0,100).map(x=>`<div class="mobile-row"><div onclick="showDetail(${x.id});showMobile('mEvidence')"><b>${x.overall}. ${x.name}</b><div class="meta">${x.pos}${x.posRank||""} • ${x.team} • B${x.bye} • FL ${x.overallTier}</div></div><div><button class="btnsm mine" onclick="pickPlayer(${x.id},true)">Mine</button> <button class="btnsm other" onclick="pickPlayer(${x.id},false)">Other</button></div></div>`).join("")}
+function showDetail(id){selectedId=id;let x=player(id),html=`<b style="font-size:16px">${x.name}</b><div class="evidence-grid" style="margin-top:9px"><div class="evidence"><b>Fantasyland</b>${x.overall} overall • ${x.posTier||"—"}</div><div class="evidence"><b>BDGE</b>${x.bdgeRank?x.pos+x.bdgeRank:"—"} • ${x.bdgeTier||"—"}</div><div class="evidence"><b>College profile</b>${x.rookie?x.collegeProfile:"Veteran — not primary"}</div><div class="evidence"><b>Offseason impact</b>${x.offseasonImpact>0?"+":""}${x.offseasonImpact} • ${x.opportunityTrend}</div></div><br><b>Analyst intel:</b> ${(x.bdgeLabels||[]).join(", ")||"No special flag imported"}<br><b>Gerard preference:</b> ${x.gerardPreference}<br><br>${why(x)}`;dDetail.innerHTML=html;mDetail.innerHTML=html;renderPrefs()}
+function renderPrefs(){if(!selectedId){dPrefs.textContent="Select a player first.";mPrefs.textContent="Select a player first.";return}let x=player(selectedId),html=`<b>${x.name}</b><div class="pref" style="margin-top:8px">${["love","neutral","cautious","avoid"].map(v=>`<button class="${x.gerardPreference===v?'active':''}" onclick="setPref('${v}')">${v}</button>`).join("")}</div><div class="note" style="margin-top:7px">This only nudges close decisions; it does not replace the rankings.</div>`;dPrefs.innerHTML=html;mPrefs.innerHTML=html}
+function setPref(v){if(!selectedId)return;player(selectedId).gerardPreference=v;save();showDetail(selectedId);renderAll()}
+function rosterAssignments(){let used=[],rows=[];function take(pos){let id=mine.find(id=>player(id).pos===pos&&!used.includes(id));if(id)used.push(id);return id}for(let s of rosterSlots){let id=null;if(s==="QB")id=take("QB");else if(s.startsWith("RB"))id=take("RB");else if(s.startsWith("WR"))id=take("WR");else if(s==="TE")id=take("TE");else if(s.startsWith("FLEX")){id=mine.find(id=>["RB","WR","TE"].includes(player(id).pos)&&!used.includes(id));if(id)used.push(id)}else if(s.startsWith("BENCH")){id=mine.find(id=>!used.includes(id));if(id)used.push(id)}rows.push([s,id])}return rows}
+function renderRoster(){let rows=rosterAssignments();dRoster.innerHTML=rows.map(([s,id])=>`<div class="slot"><span>${s}</span><span class="${id?'':'empty'}">${id?player(id).name+' · B'+player(id).bye:'—'}</span></div>`).join("");mRoster.innerHTML=mine.length?mine.map((id,i)=>`<div class="mobile-row"><span>${i+1}. ${player(id).name}</span><span>${player(id).pos} • B${player(id).bye}</span></div>`).join(""):'<div class="note">No players drafted yet.</div>';let b={};mine.forEach(id=>b[player(id).bye]=(b[player(id).bye]||0)+1);dByes.innerHTML=Object.keys(b).length?Object.entries(b).sort((a,b)=>a[0]-b[0]).map(([w,n])=>`Week ${w}: <b>${n}</b>${n>=3?' ⚠️':''}`).join("<br>"):"No players drafted yet."}
+function renderBlueprint(){let picks=mine.slice(0,6).map(player);dBlueprint.innerHTML=blueprint.map((b,i)=>`<div class="bp ${picks[i]?'done':i===picks.length?'next':''}">${picks[i]?picks[i].pos:b}</div>`).join("");let match=picks.filter((p,i)=>blueprint[i]===p.pos||blueprint[i]?.includes(p.pos)).length;dBpStatus.textContent=picks.length?Math.round(match/picks.length*100)+"% on blueprint":"RB → WR → WR → RB → TE/QB → QB/TE";mBlueprintText.innerHTML=blueprint.map((b,i)=>`${i+1}. ${picks[i]?picks[i].pos+" — "+picks[i].name:b}`).join("<br>")}
+function cpi(){let c=counts(),v=10+mine.map(player).reduce((s,x)=>s+Math.max(0,130-x.overall)/75,0)+Math.min(c.RB,2)*.6+Math.min(c.WR,3)*.5+Math.min(c.QB,1)*.4+Math.min(c.TE,1)*.4;return Math.min(34,v)}
+function chaos(){let other=history.filter(h=>!h.isMine),reach=other.filter(h=>player(h.id).overall-h.pick>=12).length,rate=other.length?reach/other.length:0;if(rate>.25)return["High","Frequent reaches are creating value falls."];if(rate>.1)return["Moderate","Some reaches are creating pivot opportunities."];return["Calm","The room is mostly following the board."]}
+function renderMeta(){let i=info();for(let p of["d","m"]){document.getElementById(p+"Round").textContent=i.r;document.getElementById(p+"PickLabel").textContent=i.r+"."+String(i.ip).padStart(2,"0");document.getElementById(p+"Until").textContent=i.until===0?"NOW":i.until}dClock.innerHTML=i.until===0?'<b class="good">YOUR PICK</b><br>Preferred position: '+expected():`Next pick in <b>${i.until}</b>. Preferred position: <b>${expected()}</b>`;let cp=cpi();dCpi.textContent=cp.toFixed(1);mCpi.textContent=cp.toFixed(1);let c=counts(),out=`RB ${Math.min(c.RB,2)}/2 • WR ${Math.min(c.WR,3)}/3 • QB ${Math.min(c.QB,1)}/1 • TE ${Math.min(c.TE,1)}/1`;dOutlook.textContent=out;mOutlook.textContent=out;let ch=chaos();dChaos.textContent=ch[0];dChaosNote.textContent=ch[1];dHistory.innerHTML=history.length?history.slice().reverse().map(h=>`<div style="padding:5px 0;border-bottom:1px solid #25334a">${h.pick}. ${player(h.id).name} ${h.isMine?'<b class="good">YOU</b>':'Other'}</div>`).join(""):"No selections entered."}
+function showMobile(id){document.querySelectorAll(".mobile-view").forEach(v=>v.classList.remove("active"));document.getElementById(id).classList.add("active");renderAll()}
+function renderAll(){if(!players.length)return;renderMeta();renderHero("dHero","dAlts");renderHero("mHero","mAlts");renderBoard();renderRoster();renderBlueprint();renderPrefs()}
+init();
+</script>
+</body></html>
