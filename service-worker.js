@@ -1,4 +1,4 @@
-const CACHE='gerard-fantasy-hq-v1-1';
+const CACHE='gerard-fantasy-hq-v1-3';
 const ASSETS=['./','./index.html','./manifest.webmanifest','./icons/icon.svg','./data/players.json'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
