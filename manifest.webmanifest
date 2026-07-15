@@ -1,12 +1,11 @@
 {
-  "name": "Gerard Fantasy HQ",
-  "short_name": "Fantasy HQ",
-  "description": "Offline-first personalized fantasy football draft assistant.",
+  "name": "Gerard Fantasy HQ 2",
+  "short_name": "Fantasy HQ 2",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#07101c",
-  "theme_color": "#07101c",
+  "background_color": "#07111f",
+  "theme_color": "#07111f",
   "icons": [
     {
       "src": "icons/icon.svg",

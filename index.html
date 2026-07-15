@@ -1,290 +1,78 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#07101c">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Fantasy HQ">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icons/icon.svg">
-<title>Gerard Fantasy HQ</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07111f"><meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icons/icon.svg">
+<title>Gerard Fantasy HQ 2</title>
 <style>
-:root{--bg:#07101c;--panel:#121d2d;--line:#2b3a52;--text:#f5f7fb;--muted:#9caabd;--accent:#72a5ff;--good:#5fd892;--warn:#ffd166;--bad:#ff7777}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:linear-gradient(145deg,#06101c,#111b2b);color:var(--text);font:14px system-ui,-apple-system,Segoe UI,sans-serif}
-button,input,select{font:inherit}header{position:sticky;top:0;z-index:30;padding:calc(12px + env(safe-area-inset-top)) 14px 12px;background:rgba(7,16,28,.97);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
-h1{font-size:19px;margin:0}.sub{font-size:11px;color:var(--muted);margin-top:3px}.shell{max-width:1500px;margin:auto;padding:10px 10px calc(78px + env(safe-area-inset-bottom))}
-.desktop{display:grid;grid-template-columns:310px minmax(560px,1fr) 325px;gap:12px}.card{background:rgba(18,29,45,.98);border:1px solid var(--line);border-radius:14px;padding:13px;margin-bottom:11px}
-.title{font-weight:850;margin-bottom:9px}.mode{display:inline-block;padding:4px 7px;border-radius:999px;background:#194730;color:#92edbc;font-size:10px;font-weight:900}
-select,input,button{background:#0b1524;color:var(--text);border:1px solid #35455f;border-radius:9px;padding:9px}button{cursor:pointer;font-weight:780}.primary{background:#245295;border-color:#5487da}.mine{border-color:#4d9d72}.other{border-color:#61728b}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:7px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:9px}.stat{background:#0b1524;border-radius:9px;padding:8px;text-align:center}.stat b{font-size:17px;display:block}
-.hero{background:linear-gradient(145deg,#17365f,#172338);border:1px solid #40689e;border-radius:13px;padding:14px}.heroName{font-size:26px;font-weight:950;margin:3px 0}
-.chips{display:flex;gap:5px;flex-wrap:wrap}.chip{font-size:10px;padding:4px 7px;border-radius:999px;background:#293951}.reason{line-height:1.42;color:#dbe3ef;margin:8px 0}.alt{display:flex;gap:8px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}.alt .n{width:22px;color:var(--muted)}.alt .p{flex:1}.meta{font-size:10px;color:var(--muted)}
-table{width:100%;border-collapse:collapse}th,td{padding:8px 6px;border-bottom:1px solid #25334a;text-align:left}th{font-size:10px;color:var(--muted);position:sticky;top:0;background:#121d2d}tr:hover{background:#19263a}.btnsm{padding:5px 7px;font-size:10px}
-.slot{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #25334a}.empty{color:#718097}.note{font-size:11px;color:var(--muted);line-height:1.48}.good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
-.warnbox{border-left:3px solid var(--warn);padding:9px;background:#1b2638;border-radius:9px}.blueprint{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}.bp{padding:7px 3px;text-align:center;border-radius:8px;background:#0d1726;color:#74849a;font-size:10px}.bp.done{background:#17482f;color:#8eebba}.bp.next{outline:2px solid var(--accent);color:#dbe8ff}
-.cpi{font-size:28px;font-weight:950}.mobile-nav,.mobile-view{display:none}.evidence-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.evidence{background:#0b1524;border-radius:10px;padding:9px}.evidence b{display:block;font-size:12px}.pref{display:flex;gap:5px;flex-wrap:wrap}.pref button.active{background:#244e7f}
-
-.draft-track{display:grid;grid-template-columns:repeat(10,minmax(54px,1fr));gap:5px;overflow-x:auto;padding-bottom:3px}
-.teamcell{min-width:54px;background:#0b1524;border:1px solid #293952;border-radius:9px;padding:7px 4px;text-align:center;font-size:10px}
-.teamcell.current{outline:2px solid var(--warn);background:#2a2513}
-.teamcell.you{border-color:#4e8cdc;color:#cfe0ff}
-.teamcell.you.current{outline:2px solid var(--good);background:#123425}
-.teamcell .teamnum{font-weight:900;font-size:12px}.teamcell .picknum{color:var(--muted);font-size:9px;margin-top:2px}
-.pick-strip{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
-.pick-card{min-width:135px;background:#0b1524;border:1px solid #293952;border-radius:10px;padding:8px}
-.pick-card.current{outline:2px solid var(--warn)}.pick-card.you{border-color:#4e8cdc}.pick-card.you.current{outline-color:var(--good)}
-.pick-card b{display:block;font-size:11px}.pick-card span{font-size:10px;color:var(--muted)}
-.board-grid{display:grid;grid-template-columns:repeat(10,minmax(100px,1fr));gap:5px;overflow:auto;max-height:360px}
-.board-col{background:#0b1524;border-radius:10px;padding:6px;min-width:100px}
-.board-col.you{border:1px solid #4e8cdc}.board-head{font-size:10px;font-weight:900;text-align:center;padding:4px;color:#dce8fa}
-.board-pick{font-size:9px;padding:5px;border-top:1px solid #24344b;min-height:35px}
-.board-pick.current{background:#302a13;border-radius:6px}.board-pick.mine{background:#133523;border-radius:6px}
-.board-pick .pnum{color:var(--muted)}.board-pick .pname{display:block;font-weight:750;margin-top:2px}
-
-
-.mode-gate{max-width:760px;margin:26px auto}.mode-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.mode-choice{padding:22px;border-radius:16px;border:1px solid var(--line);background:var(--panel);cursor:pointer}
-.mode-choice h2{margin:0 0 7px;font-size:21px}.mode-choice p{margin:0;color:var(--muted);line-height:1.45}
-.mode-choice.practice{border-color:#3e8e62}.mode-choice.live{border-color:#477fc5}
-.mode-banner{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 11px;border-radius:11px;margin-bottom:10px}
-.mode-banner.practice{background:#123523;border:1px solid #3e8e62;color:#9bf0c0}
-.mode-banner.live{background:#142c4c;border:1px solid #477fc5;color:#b8d5ff}
-.mode-banner b{font-size:12px}.mode-banner button{padding:5px 8px;font-size:10px}
-.practice-only,.live-only{display:none}
-body.practice-mode .practice-only{display:block}
-body.live-mode .live-only{display:block}
-body.live-mode .hero{background:linear-gradient(145deg,#17365f,#172338)}
-body.practice-mode .hero{background:linear-gradient(145deg,#173f2e,#172b24);border-color:#3e8e62}
-
-@media(max-width:900px){
- .mode-options{grid-template-columns:1fr}.mode-gate{margin:14px auto}
- .desktop{display:none}.mobile-view.active{display:block}.mobile-nav{display:grid;position:fixed;left:0;right:0;bottom:0;z-index:40;grid-template-columns:repeat(5,1fr);background:#091321;border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
- .mobile-nav button{border:0;background:transparent;padding:5px 1px;font-size:9px}.heroName{font-size:29px}.card{padding:12px;margin-bottom:9px}.mobile-row{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
-}
-</style>
-</head>
+:root{--bg:#07111f;--panel:#101d30;--line:#2a3c58;--text:#f7f9fd;--muted:#93a4ba;--blue:#67a3ff;--green:#52dc8d;--yellow:#ffd166}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(circle at top,#13243b 0,#07111f 48%);color:var(--text);font:14px system-ui,-apple-system,Segoe UI,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+header{position:sticky;top:0;z-index:50;background:rgba(7,17,31,.96);border-bottom:1px solid var(--line);padding:calc(12px + env(safe-area-inset-top)) 16px 12px}
+.headerRow{max-width:1550px;margin:auto;display:flex;justify-content:space-between;align-items:center}h1{font-size:19px;margin:0}.version{font-size:11px;color:var(--muted)}
+.shell{max-width:1550px;margin:auto;padding:12px 12px calc(80px + env(safe-area-inset-bottom))}
+.card{background:linear-gradient(145deg,rgba(20,36,58,.98),rgba(14,27,45,.98));border:1px solid var(--line);border-radius:15px;padding:13px}
+.setup{max-width:820px;margin:25px auto}.modeGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.modeCard{border:1px solid var(--line);border-radius:14px;padding:18px;background:#0c192a}.modeCard.selected{outline:2px solid var(--green)}.modeCard.live.selected{outline-color:var(--blue)}
+.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:12px 0}label{display:flex;flex-direction:column;gap:5px;color:var(--muted);font-size:11px}select,input{background:#081321;color:var(--text);border:1px solid #344967;border-radius:9px;padding:10px}
+.primary{background:#2862ad;border:1px solid #6aa5ff;color:#fff;border-radius:10px;padding:11px 14px;font-weight:850}.greenBtn{background:#17613c;border-color:#52dc8d}.ghost{background:#0a1625;border:1px solid #3b4f6b;color:#e9f0fa;border-radius:9px;padding:8px 10px;font-weight:750}
+.appgrid{display:grid;grid-template-columns:310px minmax(560px,1fr) 330px;gap:11px}.stack{display:flex;flex-direction:column;gap:11px}
+.banner{padding:9px 11px;border-radius:10px;font-weight:850;display:flex;justify-content:space-between}.practiceBanner{background:#123824;border:1px solid #397957;color:#aaf1c6}.liveBanner{background:#122e50;border:1px solid #477fc5;color:#c1dcff}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.stat{background:#091625;border-radius:10px;padding:9px;text-align:center}.stat b{display:block;font-size:20px}
+.rec{background:linear-gradient(145deg,#173b67,#182743);border:1px solid #4c7dbb;border-radius:14px;padding:14px}.rec h2{font-size:27px;margin:4px 0 7px}.tagrow{display:flex;gap:5px;flex-wrap:wrap}.tag{background:#2a3f5d;border-radius:999px;padding:4px 7px;font-size:10px}.reason{color:#dbe6f5;line-height:1.48;margin:9px 0}
+.alt{display:flex;align-items:center;gap:8px;border-top:1px solid var(--line);padding:9px 0}.alt .rank{width:20px;color:var(--muted)}.alt .info{flex:1}.meta{font-size:10px;color:var(--muted)}
+.boardWrap{overflow:auto}.board{display:grid;grid-template-columns:repeat(10,minmax(118px,1fr));gap:5px;min-width:1180px}.teamCol{background:#091625;border:1px solid #243752;border-radius:10px;overflow:hidden}.teamCol.you{border-color:#5f9cff}.teamHead{text-align:center;padding:7px;font-size:10px;font-weight:900;background:#122039}.teamHead small{display:block;color:var(--muted);font-weight:500;margin-top:2px}.pickCell{min-height:42px;padding:5px 6px;border-top:1px solid #22344c;font-size:9px}.pickCell.current{background:#4c4017;outline:1px solid var(--yellow)}.pickCell.mine{background:#123a26}.pickCell .pn{color:var(--muted)}.pickCell .name{display:block;font-weight:800;margin-top:2px}
+.rosterRow{display:flex;justify-content:space-between;border-bottom:1px solid #263851;padding:7px 0}.empty{color:#667990}.strategy{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px solid #263851}.pill{font-size:9px;border-radius:999px;padding:4px 7px;background:#293e5a}
+.boardList{max-height:575px;overflow:auto}.playerRow{display:grid;grid-template-columns:34px 1fr 50px 105px;gap:7px;align-items:center;padding:8px 0;border-bottom:1px solid #263851}.tabs,.mobileOnly{display:none}
+@media(max-width:900px){.shell{padding:9px 9px 82px}.setup{margin:10px auto}.modeGrid,.controls{grid-template-columns:1fr}.appgrid{display:block}.desktopSide{display:none}.mobileOnly{display:block}.card{margin-bottom:9px}.board{grid-template-columns:repeat(10,104px);min-width:1040px}.tabs{display:grid;position:fixed;left:0;right:0;bottom:0;z-index:60;grid-template-columns:repeat(4,1fr);background:#081321;border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}.tabs button{border:0;background:transparent;color:#dce7f5;padding:5px;font-size:9px}.mobilePage{display:none}.mobilePage.active{display:block}}
+</style></head>
 <body>
-<header><h1>Gerard Fantasy HQ</h1><div class="sub">Version 1.3 • Gerard Mode • simple draft-day view, deeper evidence behind a tap</div></header>
+<header><div class="headerRow"><div><h1>Gerard Fantasy HQ</h1><div class="version">Version 2.0 Alpha • Draft HQ foundation</div></div><button id="changeBtn" class="ghost hidden" onclick="backToSetup()">Change setup</button></div></header>
 <div class="shell">
-<div id="modeGate" class="mode-gate">
-  <div class="card">
-    <div class="title">What are we doing today?</div>
-    <div class="mode-options">
-      <div class="mode-choice practice" onclick="startMode('practice')">
-        <h2>🟢 Practice Mock Draft</h2>
-        <p>AI opponents draft the other teams. Auto-pick advances the simulation and stops when you are on the clock.</p>
-      </div>
-      <div class="mode-choice live" onclick="startMode('live')">
-        <h2>🔵 Live Draft Day</h2>
-        <p>No AI and no automatic selections. You manually enter each real pick as your league drafts.</p>
-      </div>
-    </div>
-  </div>
-</div>
-<div id="appContent" style="display:none">
-
-
-<div class="desktop"><div style="grid-column:1/-1" id="desktopModeBanner"></div>
-<section>
-<div class="card"><div class="title">Draft setup <span class="mode">GERARD MODE</span></div>
-<div class="grid2"><label>Draft slot<select id="dSlot"></select></label><label>Overall pick<input id="dPick" type="number" min="1" value="1"></label></div>
-<div class="stats"><div class="stat"><b id="dRound">1</b>Round</div><div class="stat"><b id="dPickLabel">1.01</b>Pick</div><div class="stat"><b id="dUntil">NOW</b>Until yours</div></div>
-<div style="margin-top:8px"><button onclick="undo()">Undo</button> <button onclick="resetAll()">Reset</button> <button class="practice-only" onclick="autoPickOthers()">Auto-pick to me</button></div><div class="live-only note" style="margin-top:8px">Enter each real selection using the <b>Other</b> or <b>Mine</b> buttons. The app will advance one pick at a time.</div></div>
-<div class="card"><div class="title">Snake draft order</div><div id="dTeamTrack" class="draft-track"></div><div id="dTurnSummary" class="note" style="margin-top:7px"></div></div>
-<div class="card"><div class="title">Recent and upcoming picks</div><div id="dPickStrip" class="pick-strip"></div></div>
-<div class="card"><div class="title">Full draft board</div><div id="dDraftBoard" class="board-grid"></div></div>
-<div class="card"><div class="title">Blueprint</div><div id="dBlueprint" class="blueprint"></div><div id="dBpStatus" class="note" style="margin-top:7px"></div></div>
-<div class="card"><div class="title">Your roster</div><div id="dRoster"></div></div>
-<div class="card"><div class="title">Bye weeks</div><div id="dByes" class="note"></div></div>
-</section>
-
-<section>
-<div class="card"><div class="title">Best decision now</div><div id="dHero" class="hero"></div><div id="dAlts"></div></div>
-<div class="card"><div class="title">Available board</div>
-<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px"><button onclick="setFilter('ALL')">ALL</button><button onclick="setFilter('RB')">RB</button><button onclick="setFilter('WR')">WR</button><button onclick="setFilter('QB')">QB</button><button onclick="setFilter('TE')">TE</button></div>
-<input id="dSearch" oninput="renderBoard()" placeholder="Search players" style="width:100%;margin-bottom:7px">
-<div style="max-height:650px;overflow:auto"><table><thead><tr><th>Ovr</th><th>Player</th><th>Pos</th><th>FL</th><th>BDGE</th><th>Bye</th><th>Intel</th><th></th></tr></thead><tbody id="dBoard"></tbody></table></div></div>
-</section>
-
-<section>
-<div class="card"><div class="title">On the clock</div><div id="dClock" class="warnbox"></div></div>
-<div class="card"><div class="title">Practice CPI</div><div class="cpi"><span id="dCpi">10.0</span>%</div><div id="dOutlook" class="note"></div></div>
-<div class="card"><div class="title">League chaos</div><div id="dChaos" style="font-size:22px;font-weight:900"></div><div id="dChaosNote" class="note"></div></div>
-<div class="card"><div class="title">Player evidence card</div><div id="dDetail" class="note">Click a player to see the optional evidence layer.</div></div>
-<div class="card"><div class="title">Gerard adjustments</div><div id="dPrefs" class="note">Select a player, then mark Love / Neutral / Cautious / Avoid.</div></div>
-<div class="card"><div class="title">History</div><div id="dHistory" class="note"></div></div>
-</section>
-</div>
-
-<section id="mDraft" class="mobile-view active"><div id="mobileModeBanner"></div>
-<div class="card"><div class="stats"><div class="stat"><b id="mRound">1</b>Round</div><div class="stat"><b id="mPickLabel">1.01</b>Pick</div><div class="stat"><b id="mUntil">NOW</b>Until yours</div></div></div>
-<div class="card"><div class="title">Draft order</div><div id="mTeamTrack" class="draft-track"></div><div id="mTurnSummary" class="note" style="margin-top:7px"></div></div>
-<div class="card"><div class="title">Recent and upcoming</div><div id="mPickStrip" class="pick-strip"></div></div>
-<div id="mHero" class="card hero"></div>
-<div class="card"><div class="title">Other options</div><div id="mAlts"></div></div>
-<div class="card"><button class="practice-only" onclick="autoPickOthers()">Auto-pick to me</button> <button onclick="undo()">Undo</button><div class="live-only note" style="margin-top:8px">In Live Draft Day mode, use the Board screen to record each real pick.</div></div>
-</section>
-
-<section id="mBoardView" class="mobile-view">
-<div class="card"><input id="mSearch" oninput="renderBoard()" placeholder="Search players" style="width:100%;margin-bottom:7px">
-<div style="display:flex;gap:5px;overflow:auto;margin-bottom:7px"><button onclick="setFilter('ALL')">ALL</button><button onclick="setFilter('RB')">RB</button><button onclick="setFilter('WR')">WR</button><button onclick="setFilter('QB')">QB</button><button onclick="setFilter('TE')">TE</button></div><div id="mBoard"></div></div>
-</section>
-
-<section id="mTeam" class="mobile-view">
-<div class="card"><div class="title">Your roster</div><div id="mRoster"></div></div>
-<div class="card"><div class="title">Snake draft order</div><div id="dTeamTrack" class="draft-track"></div><div id="dTurnSummary" class="note" style="margin-top:7px"></div></div>
-<div class="card"><div class="title">Recent and upcoming picks</div><div id="dPickStrip" class="pick-strip"></div></div>
-<div class="card"><div class="title">Full draft board</div><div id="dDraftBoard" class="board-grid"></div></div>
-<div class="card"><div class="title">Blueprint</div><div id="mBlueprintText" class="note"></div></div>
-<div class="card"><div class="title">Practice CPI</div><div class="cpi"><span id="mCpi">10.0</span>%</div><div id="mOutlook" class="note"></div></div>
-</section>
-
-<section id="mEvidence" class="mobile-view">
-<div class="card"><div class="title">Evidence card</div><div id="mDetail" class="note">Tap a player in the Board screen.</div></div>
-<div class="card"><div class="title">Gerard adjustment</div><div id="mPrefs" class="note">Select a player first.</div></div>
-</section>
-
-<section id="mSetup" class="mobile-view">
-<div class="card"><div class="title">Setup <span class="mode">GERARD MODE</span></div>
-<div class="mobile-row"><span>Draft slot</span><select id="mSlot"></select></div><div class="mobile-row"><span>Overall pick</span><input id="mPick" type="number" min="1" value="1" style="width:90px"></div>
-<div style="margin-top:9px"><button onclick="resetAll()">Reset draft</button></div></div>
-<div class="card"><div class="title">Default blueprint</div><div class="note">RB → WR → WR → RB → TE/QB → QB/TE, then best available. Value Override can break the pattern.</div></div>
-</section>
-</div>
-</div>
-<nav class="mobile-nav"><button onclick="showMobile('mDraft')">🏈<br>Draft</button><button onclick="showMobile('mBoardView')">📋<br>Board</button><button onclick="showMobile('mTeam')">👥<br>Team</button><button onclick="showMobile('mEvidence')">🧠<br>Evidence</button><button onclick="showMobile('mSetup')">⚙️<br>Setup</button></nav>
-
+<section id="setupScreen" class="setup"><div class="card"><h2 style="margin-top:0">Start a draft</h2>
+<div class="modeGrid"><div id="practiceChoice" class="modeCard selected" onclick="chooseMode('practice')"><h3>🟢 Practice Mock Draft</h3><p class="meta">AI drafts the other nine teams and stops when it is your turn.</p></div><div id="liveChoice" class="modeCard live" onclick="chooseMode('live')"><h3>🔵 Live Draft Day</h3><p class="meta">You manually enter every real selection. No computer picks.</p></div></div>
+<div class="controls"><label>Your draft position<select id="draftSlot"></select></label><label>Draft room style<select id="roomStyle"><option value="balanced">Balanced</option><option value="chaotic" selected>Chaotic</option><option value="conservative">Conservative</option></select></label><label>Teams<select><option>10 teams</option></select></label></div>
+<div class="card" style="background:#091625;margin-bottom:12px"><b>Gerard Blueprint</b><div class="meta" style="margin-top:5px">RB → WR → WR → RB → TE/QB → QB/TE, with Value Override when elite talent falls.</div></div>
+<button class="primary greenBtn" style="width:100%" onclick="startDraft()">Start Draft</button></div></section>
+<section id="appScreen" class="hidden"><div id="modeBanner"></div><div class="appgrid">
+<aside class="stack desktopSide"><div class="card"><div class="stats"><div class="stat"><b id="round">1</b>Round</div><div class="stat"><b id="pickLabel">1.01</b>Pick</div><div class="stat"><b id="until">0</b>Until you</div></div></div><div class="card"><b>Your roster</b><div id="roster"></div></div><div class="card"><b>AI strategies</b><div id="strategies"></div></div></aside>
+<main class="stack">
+<section id="mobileDraft" class="mobilePage active"><div class="mobileOnly card"><div class="stats"><div class="stat"><b id="mRound">1</b>Round</div><div class="stat"><b id="mPickLabel">1.01</b>Pick</div><div class="stat"><b id="mUntil">0</b>Until you</div></div></div><div class="card"><div id="recommendation" class="rec"></div><div id="alternatives"></div></div><div class="card" id="practiceControls"><button class="primary greenBtn" style="width:100%" onclick="simulateToMe()">Simulate until my pick</button></div><div class="card" id="liveHelp"><div class="meta">Use the player board and press Other for league-mate selections or Mine for your own.</div></div></section>
+<section id="mobileBoard" class="mobilePage"><div class="card"><b>Visual snake board</b><div class="boardWrap"><div id="draftBoard" class="board"></div></div></div></section>
+<section id="mobilePlayers" class="mobilePage"><div class="card"><b>Available players</b><input id="search" placeholder="Search players" oninput="renderPlayers()" style="width:100%;margin:8px 0"><div style="display:flex;gap:5px;overflow:auto"><button class="ghost" onclick="setPos('ALL')">ALL</button><button class="ghost" onclick="setPos('RB')">RB</button><button class="ghost" onclick="setPos('WR')">WR</button><button class="ghost" onclick="setPos('QB')">QB</button><button class="ghost" onclick="setPos('TE')">TE</button></div><div id="playersList" class="boardList"></div></div></section>
+</main>
+<aside class="stack desktopSide"><div class="card"><b>Visual snake board</b><div class="boardWrap"><div id="desktopBoard" class="board"></div></div></div><div class="card"><b>Available players</b><input id="dSearch" placeholder="Search players" oninput="renderPlayers()" style="width:100%;margin:8px 0"><div id="dPlayersList" class="boardList"></div></div></aside>
+</div><section id="mobileTeam" class="mobilePage mobileOnly"><div class="card"><b>Your roster</b><div id="mRoster"></div></div><div class="card"><b>AI strategies</b><div id="mStrategies"></div></div></section></section></div>
+<nav id="tabs" class="tabs hidden"><button onclick="showPage('mobileDraft')">🏈<br>Draft</button><button onclick="showPage('mobileBoard')">🧩<br>Board</button><button onclick="showPage('mobilePlayers')">📋<br>Players</button><button onclick="showPage('mobileTeam')">👥<br>Team</button></nav>
 <script>
-let players=[],drafted=[],mine=[],history=[],filter="ALL",selectedId=null,currentMode=null;
-const blueprint=["RB","WR","WR","RB","TE/QB","QB/TE"];
-const rosterSlots=["QB","RB1","RB2","WR1","WR2","WR3","TE","FLEX1","FLEX2","K","DEF","BENCH1","BENCH2","BENCH3","BENCH4","BENCH5"];
-
-function startMode(mode,fromLoad=false){
- currentMode=mode;
- document.body.classList.remove("practice-mode","live-mode");
- document.body.classList.add(mode==="practice"?"practice-mode":"live-mode");
- modeGate.style.display="none";
- appContent.style.display="block";
- const practice=mode==="practice";
- const banner=`<div class="mode-banner ${practice?'practice':'live'}"><b>${practice?'🟢 PRACTICE MOCK DRAFT':'🔵 LIVE DRAFT DAY'}</b><button onclick="changeMode()">Change mode</button></div>`;
- desktopModeBanner.innerHTML=banner;
- mobileModeBanner.innerHTML=banner;
- if(!fromLoad)save();
- renderAll();
-}
-function changeMode(){
- currentMode=null;
- document.body.classList.remove("practice-mode","live-mode");
- appContent.style.display="none";
- modeGate.style.display="block";
- localStorage.removeItem("gfhv13");
- drafted=[];mine=[];history=[];
- dPick.value=1;mPick.value=1;
-}
-
-async function init(){players=await fetch("data/players.json").then(r=>r.json());for(let i=1;i<=10;i++){for(const id of["dSlot","mSlot"]){let o=document.createElement("option");o.value=i;o.textContent=i;document.getElementById(id).appendChild(o)}}document.getElementById("dSlot").value=10;document.getElementById("mSlot").value=10;wire();load();if(!currentMode){modeGate.style.display="block";appContent.style.display="none"}else{renderAll()}if("serviceWorker"in navigator)navigator.serviceWorker.register("service-worker.js")}
-function wire(){dSlot.onchange=e=>{mSlot.value=e.target.value;save();renderAll()};mSlot.onchange=e=>{dSlot.value=e.target.value;save();renderAll()};dPick.oninput=e=>{mPick.value=e.target.value;save();renderAll()};mPick.oninput=e=>{dPick.value=e.target.value;save();renderAll()}}
-function save(){let prefs={};players.forEach(p=>prefs[p.id]=p.gerardPreference);localStorage.setItem("gfhv13",JSON.stringify({drafted,mine,history,slot:+dSlot.value,pick:+dPick.value,prefs,mode:currentMode}))}
-function load(){try{let s=JSON.parse(localStorage.getItem("gfhv13"));if(!s)return;drafted=s.drafted||[];mine=s.mine||[];history=s.history||[];dSlot.value=s.slot||10;mSlot.value=s.slot||10;dPick.value=s.pick||1;mPick.value=s.pick||1;if(s.prefs)players.forEach(p=>p.gerardPreference=s.prefs[p.id]||"neutral");if(s.mode)startMode(s.mode,true)}catch(e){}}
-function info(){let p=+dPick.value||1,r=Math.ceil(p/10),ip=(p-1)%10+1,s=+dSlot.value,mp=r%2?s:11-s,next;if(ip<=mp)next=p+(mp-ip);else{let nr=r+1,np=nr%2?s:11-s;next=r*10+np}return{p,r,ip,until:next-p}}
-
-function teamForPick(p){
- let r=Math.ceil(p/10),pos=(p-1)%10+1;
- return r%2===1?pos:11-pos;
-}
-function pickInRound(p){return (p-1)%10+1}
-function teamName(t){return t===+dSlot.value?"YOU":"Team "+t}
-function nextUserPickAfter(p){
- let s=+dSlot.value,r=Math.ceil(p/10),candidate;
- for(let rr=r;rr<=30;rr++){
-   candidate=(rr-1)*10+(rr%2===1?s:11-s);
-   if(candidate>=p)return candidate;
- }
- return null;
-}
-function pickRecord(p){
- let h=history.find(h=>h.pick===p);
- return h?player(h.id):null;
-}
-
-function counts(){let c={QB:0,RB:0,WR:0,TE:0};mine.forEach(id=>{let x=player(id);if(x)c[x.pos]++});return c}
-function expected(){return blueprint[Math.min(info().r-1,5)]||"BPA"}function fit(x){let e=expected();if(e===x.pos)return 18;if(e.includes(x.pos))return 16;if(e==="BPA")return 0;return-6}
-function gap(x){return Math.max(0,info().p-x.overall)}function prefBoost(x){return{xLove:0,love:8,neutral:0,cautious:-6,avoid:-14}[x.gerardPreference]||0}
-function status(x){if(gap(x)>=16&&fit(x)<10)return["🔴 VALUE OVERRIDE","bad"];if(gap(x)>=8&&fit(x)<10)return["🟡 FLEXIBLE PIVOT","warn"];return["🟢 STAY THE COURSE","good"]}
-function score(x){let c=counts(),s=150-x.overall*1.18+fit(x)+(x.bdgeBoost||0)+prefBoost(x);if(x.pos==="RB"&&c.RB<2)s+=12;if(x.pos==="WR"&&c.WR<3)s+=12;if(x.pos==="QB"&&info().r<3)s-=22;if(x.pos==="TE"&&info().r<2)s-=12;if(x.rookie&&((x.pos==="RB"&&c.RB<2)||(x.pos==="WR"&&c.WR<2)))s-=14;else if(x.rookie)s+=4;if(x.bdgeAvoid)s-=Math.max(0,13-gap(x)*.5);if(x.bdgeRank)s+=Math.max(-6,Math.min(6,((x.overall/3)-x.bdgeRank)*.5));s-=mine.map(player).filter(y=>y&&y.bye===x.bye).length*3;return s}
-function avail(){return players.filter(x=>!drafted.includes(x.id))}function recs(){return[...avail()].sort((a,b)=>score(b)-score(a)).slice(0,5)}
-function why(x){let r=[];if(fit(x)>10)r.push("fits blueprint");if(gap(x)>=8)r.push("fell "+gap(x)+" spots");if(x.gerardPreference!=="neutral")r.push("Gerard: "+x.gerardPreference);if(x.bdgeLabels?.length)r.push("BDGE: "+x.bdgeLabels.slice(0,1));if(x.bdgeAvoid)r.push(gap(x)>=15?"discount offsets avoid":"avoid-at-cost warning");if(x.rookie)r.push(counts()[x.pos]<2?"rookie caution":"rookie upside role");return r.join(" • ")||"best blended value"}
-function player(id){return players.find(p=>p.id===id)}function pickPlayer(id,isMine){if(drafted.includes(id))return;drafted.push(id);if(isMine)mine.push(id);history.push({pick:info().p,id,isMine});let np=info().p+1;dPick.value=np;mPick.value=np;save();renderAll()}
-let autoRunning=false;
-async function autoPickOthers(){
- if(currentMode!=="practice")return;
- if(autoRunning)return;
- autoRunning=true;
- while(info().until>0){
-   let pool=avail().slice(0,Math.min(9,avail().length));
-   if(!pool.length)break;
-   let x=pool[Math.floor(Math.random()*pool.length)];
-   pickPlayer(x.id,false);
-   await new Promise(r=>setTimeout(r,220));
- }
- autoRunning=false;
-}}
-function undo(){let h=history.pop();if(!h)return;drafted=drafted.filter(id=>id!==h.id);if(h.isMine)mine=mine.filter(id=>id!==h.id);let np=Math.max(1,(+dPick.value||1)-1);dPick.value=np;mPick.value=np;save();renderAll()}
-function resetAll(){drafted=[];mine=[];history=[];dPick.value=1;mPick.value=1;save();renderAll()}function setFilter(f){filter=f;renderBoard()}
-function renderHero(el,altsEl){let x=recs()[0],st=status(x);document.getElementById(el).innerHTML=`<div class="${st[1]}" style="font-weight:900">${st[0]}</div><div class="heroName">${x.name}</div><div class="chips"><span class="chip">${x.pos}${x.posRank||""}</span><span class="chip">${x.team}</span><span class="chip">Bye ${x.bye}</span><span class="chip">FL ${x.overallTier}</span>${x.bdgeRank?`<span class="chip">BDGE ${x.pos}${x.bdgeRank}</span>`:""}</div><div class="reason">${why(x)}</div><button class="primary" style="width:100%" onclick="pickPlayer(${x.id},true)">Draft ${x.name}</button>`;document.getElementById(altsEl).innerHTML=recs().slice(1).map((x,i)=>`<div class="alt"><span class="n">${i+2}</span><div class="p"><b>${x.name}</b><div class="meta">${x.pos}${x.posRank||""} • ${x.team} • ${status(x)[0]}</div></div><button class="btnsm mine" onclick="pickPlayer(${x.id},true)">Mine</button><button class="btnsm other" onclick="pickPlayer(${x.id},false)">Other</button></div>`).join("")}
-function renderBoard(){let q=(dSearch.value||mSearch.value||"").toLowerCase(),list=avail().filter(x=>(filter==="ALL"||x.pos===filter)&&x.name.toLowerCase().includes(q));dBoard.innerHTML=list.map(x=>`<tr><td>${x.overall}</td><td><b onclick="showDetail(${x.id})" style="cursor:pointer">${x.name}</b></td><td>${x.pos}${x.posRank||""}</td><td>${x.overallTier}/${x.posTier||"—"}</td><td>${x.bdgeRank?x.pos+x.bdgeRank:"—"}</td><td>${x.bye}</td><td>${x.bdgeAvoid?'<span class="bad">AVOID</span> ':''}${x.mixedIntel?'<span class="warn">MIXED</span> ':''}</td><td><button class="btnsm mine" onclick="pickPlayer(${x.id},true)">Mine</button> <button class="btnsm other" onclick="pickPlayer(${x.id},false)">Other</button></td></tr>`).join("");mBoard.innerHTML=list.slice(0,100).map(x=>`<div class="mobile-row"><div onclick="showDetail(${x.id});showMobile('mEvidence')"><b>${x.overall}. ${x.name}</b><div class="meta">${x.pos}${x.posRank||""} • ${x.team} • B${x.bye} • FL ${x.overallTier}</div></div><div><button class="btnsm mine" onclick="pickPlayer(${x.id},true)">Mine</button> <button class="btnsm other" onclick="pickPlayer(${x.id},false)">Other</button></div></div>`).join("")}
-function showDetail(id){selectedId=id;let x=player(id),html=`<b style="font-size:16px">${x.name}</b><div class="evidence-grid" style="margin-top:9px"><div class="evidence"><b>Fantasyland</b>${x.overall} overall • ${x.posTier||"—"}</div><div class="evidence"><b>BDGE</b>${x.bdgeRank?x.pos+x.bdgeRank:"—"} • ${x.bdgeTier||"—"}</div><div class="evidence"><b>College profile</b>${x.rookie?x.collegeProfile:"Veteran — not primary"}</div><div class="evidence"><b>Offseason impact</b>${x.offseasonImpact>0?"+":""}${x.offseasonImpact} • ${x.opportunityTrend}</div></div><br><b>Analyst intel:</b> ${(x.bdgeLabels||[]).join(", ")||"No special flag imported"}<br><b>Gerard preference:</b> ${x.gerardPreference}<br><br>${why(x)}`;dDetail.innerHTML=html;mDetail.innerHTML=html;renderPrefs()}
-function renderPrefs(){if(!selectedId){dPrefs.textContent="Select a player first.";mPrefs.textContent="Select a player first.";return}let x=player(selectedId),html=`<b>${x.name}</b><div class="pref" style="margin-top:8px">${["love","neutral","cautious","avoid"].map(v=>`<button class="${x.gerardPreference===v?'active':''}" onclick="setPref('${v}')">${v}</button>`).join("")}</div><div class="note" style="margin-top:7px">This only nudges close decisions; it does not replace the rankings.</div>`;dPrefs.innerHTML=html;mPrefs.innerHTML=html}
-function setPref(v){if(!selectedId)return;player(selectedId).gerardPreference=v;save();showDetail(selectedId);renderAll()}
-function rosterAssignments(){let used=[],rows=[];function take(pos){let id=mine.find(id=>player(id).pos===pos&&!used.includes(id));if(id)used.push(id);return id}for(let s of rosterSlots){let id=null;if(s==="QB")id=take("QB");else if(s.startsWith("RB"))id=take("RB");else if(s.startsWith("WR"))id=take("WR");else if(s==="TE")id=take("TE");else if(s.startsWith("FLEX")){id=mine.find(id=>["RB","WR","TE"].includes(player(id).pos)&&!used.includes(id));if(id)used.push(id)}else if(s.startsWith("BENCH")){id=mine.find(id=>!used.includes(id));if(id)used.push(id)}rows.push([s,id])}return rows}
-function renderRoster(){let rows=rosterAssignments();dRoster.innerHTML=rows.map(([s,id])=>`<div class="slot"><span>${s}</span><span class="${id?'':'empty'}">${id?player(id).name+' · B'+player(id).bye:'—'}</span></div>`).join("");mRoster.innerHTML=mine.length?mine.map((id,i)=>`<div class="mobile-row"><span>${i+1}. ${player(id).name}</span><span>${player(id).pos} • B${player(id).bye}</span></div>`).join(""):'<div class="note">No players drafted yet.</div>';let b={};mine.forEach(id=>b[player(id).bye]=(b[player(id).bye]||0)+1);dByes.innerHTML=Object.keys(b).length?Object.entries(b).sort((a,b)=>a[0]-b[0]).map(([w,n])=>`Week ${w}: <b>${n}</b>${n>=3?' ⚠️':''}`).join("<br>"):"No players drafted yet."}
-function renderBlueprint(){let picks=mine.slice(0,6).map(player);dBlueprint.innerHTML=blueprint.map((b,i)=>`<div class="bp ${picks[i]?'done':i===picks.length?'next':''}">${picks[i]?picks[i].pos:b}</div>`).join("");let match=picks.filter((p,i)=>blueprint[i]===p.pos||blueprint[i]?.includes(p.pos)).length;dBpStatus.textContent=picks.length?Math.round(match/picks.length*100)+"% on blueprint":"RB → WR → WR → RB → TE/QB → QB/TE";mBlueprintText.innerHTML=blueprint.map((b,i)=>`${i+1}. ${picks[i]?picks[i].pos+" — "+picks[i].name:b}`).join("<br>")}
-function cpi(){let c=counts(),v=10+mine.map(player).reduce((s,x)=>s+Math.max(0,130-x.overall)/75,0)+Math.min(c.RB,2)*.6+Math.min(c.WR,3)*.5+Math.min(c.QB,1)*.4+Math.min(c.TE,1)*.4;return Math.min(34,v)}
-function chaos(){let other=history.filter(h=>!h.isMine),reach=other.filter(h=>player(h.id).overall-h.pick>=12).length,rate=other.length?reach/other.length:0;if(rate>.25)return["High","Frequent reaches are creating value falls."];if(rate>.1)return["Moderate","Some reaches are creating pivot opportunities."];return["Calm","The room is mostly following the board."]}
-
-function renderDraftTracker(){
- let i=info(),currentTeam=teamForPick(i.p),userSlot=+dSlot.value;
- let teams=[];
- for(let t=1;t<=10;t++){
-   let next=null;
-   for(let p=i.p;p<=i.p+20;p++){if(teamForPick(p)===t){next=p;break}}
-   teams.push(`<div class="teamcell ${t===currentTeam?'current':''} ${t===userSlot?'you':''}"><div class="teamnum">${t===userSlot?'⭐ YOU':'T'+t}</div><div class="picknum">${t===currentTeam?'ON CLOCK':next?'Pick '+next:'—'}</div></div>`);
- }
- dTeamTrack.innerHTML=teams.join("");mTeamTrack.innerHTML=teams.join("");
- let nextMine=nextUserPickAfter(i.p),afterMine=nextUserPickAfter((nextMine||i.p)+1);
- let summary=currentTeam===userSlot
-   ?`<b class="good">You are on the clock at Pick ${i.p}.</b> Your following pick is ${afterMine||"—"}.`
-   :`<b>${teamName(currentTeam)}</b> is on the clock at Pick ${i.p}. You pick at ${nextMine}, ${Math.max(0,nextMine-i.p)} pick${nextMine-i.p===1?'':'s'} away.${currentMode==="live"?" Record the real selection from the Board screen.":""}`;
- dTurnSummary.innerHTML=summary;mTurnSummary.innerHTML=summary;
-
- let cards=[];
- let start=Math.max(1,i.p-3),end=i.p+6;
- for(let p=start;p<=end;p++){
-   let t=teamForPick(p),x=pickRecord(p),isYou=t===userSlot;
-   cards.push(`<div class="pick-card ${p===i.p?'current':''} ${isYou?'you':''}"><b>${p}. ${isYou?'⭐ YOU':'Team '+t}</b><span>${x?x.name:(p===i.p?'On the clock':'Upcoming')}</span></div>`);
- }
- dPickStrip.innerHTML=cards.join("");mPickStrip.innerHTML=cards.join("");
-
- let cols=[];
- for(let t=1;t<=10;t++){
-   let picks=[];
-   for(let p=1;p<=160;p++){
-     if(teamForPick(p)!==t)continue;
-     let x=pickRecord(p);
-     let cls=p===i.p?'current':(x&&history.find(h=>h.pick===p)?.isMine?'mine':'');
-     picks.push(`<div class="board-pick ${cls}"><span class="pnum">${p}</span><span class="pname">${x?x.name:(p===i.p?'On clock':'—')}</span></div>`);
-     if(picks.length>=16)break;
-   }
-   cols.push(`<div class="board-col ${t===userSlot?'you':''}"><div class="board-head">${t===userSlot?'⭐ YOU':'Team '+t}</div>${picks.join("")}</div>`);
- }
- dDraftBoard.innerHTML=cols.join("");
-}
-
-function renderMeta(){let i=info();for(let p of["d","m"]){document.getElementById(p+"Round").textContent=i.r;document.getElementById(p+"PickLabel").textContent=i.r+"."+String(i.ip).padStart(2,"0");document.getElementById(p+"Until").textContent=i.until===0?"NOW":i.until}dClock.innerHTML=i.until===0?'<b class="good">YOUR PICK</b><br>Preferred position: '+expected():`Next pick in <b>${i.until}</b>. Preferred position: <b>${expected()}</b>`;let cp=cpi();dCpi.textContent=cp.toFixed(1);mCpi.textContent=cp.toFixed(1);let c=counts(),out=`RB ${Math.min(c.RB,2)}/2 • WR ${Math.min(c.WR,3)}/3 • QB ${Math.min(c.QB,1)}/1 • TE ${Math.min(c.TE,1)}/1`;dOutlook.textContent=out;mOutlook.textContent=out;let ch=chaos();dChaos.textContent=ch[0];dChaosNote.textContent=ch[1];dHistory.innerHTML=history.length?history.slice().reverse().map(h=>`<div style="padding:5px 0;border-bottom:1px solid #25334a">${h.pick}. ${player(h.id).name} ${h.isMine?'<b class="good">YOU</b>':'Other'}</div>`).join(""):"No selections entered."}
-function showMobile(id){document.querySelectorAll(".mobile-view").forEach(v=>v.classList.remove("active"));document.getElementById(id).classList.add("active");renderAll()}
-function renderAll(){if(!players.length)return;renderMeta();renderDraftTracker();renderHero("dHero","dAlts");renderHero("mHero","mAlts");renderBoard();renderRoster();renderBlueprint();renderPrefs()}
+let players=[],mode="practice",style="chaotic",slot=10,pick=1,drafted=[],history=[],posFilter="ALL",aiProfiles={};
+const blueprint=["RB","WR","WR","RB","TE/QB","QB/TE"],strategies=["Balanced","Hero RB","Zero RB","WR Heavy","Early QB","Elite TE","Rookie Chaser","Value Drafter","Chaos"],rosterSlots=["QB","RB1","RB2","WR1","WR2","WR3","TE","FLEX1","FLEX2","K","DEF","BENCH1","BENCH2","BENCH3","BENCH4","BENCH5"];
+async function init(){players=await fetch("data/players.json").then(r=>r.json());for(let i=1;i<=10;i++){let o=document.createElement("option");o.value=i;o.textContent="Pick "+i;draftSlot.appendChild(o)}draftSlot.value=10}
+function chooseMode(m){mode=m;practiceChoice.classList.toggle("selected",m==="practice");liveChoice.classList.toggle("selected",m==="live")}
+function startDraft(){slot=+draftSlot.value;style=roomStyle.value;pick=1;drafted=[];history=[];buildProfiles();setupScreen.classList.add("hidden");appScreen.classList.remove("hidden");changeBtn.classList.remove("hidden");tabs.classList.remove("hidden");modeBanner.innerHTML=`<div class="banner ${mode==="practice"?"practiceBanner":"liveBanner"}"><span>${mode==="practice"?"🟢 PRACTICE MOCK DRAFT":"🔵 LIVE DRAFT DAY"}</span><span>Draft Slot ${slot}</span></div>`;practiceControls.classList.toggle("hidden",mode!=="practice");liveHelp.classList.toggle("hidden",mode!=="live");renderAll()}
+function backToSetup(){appScreen.classList.add("hidden");setupScreen.classList.remove("hidden");changeBtn.classList.add("hidden");tabs.classList.add("hidden")}
+function buildProfiles(){aiProfiles={};for(let t=1;t<=10;t++){if(t!==slot)aiProfiles[t]=strategies[(t*3+(style==="chaotic"?4:style==="conservative"?1:2))%strategies.length]}}
+function teamForPick(p){let r=Math.ceil(p/10),x=(p-1)%10+1;return r%2?x:11-x}
+function info(){let r=Math.ceil(pick/10),ip=(pick-1)%10+1,next=pick;while(teamForPick(next)!==slot)next++;return{r,ip,until:next-pick}}
+function available(){return players.filter(p=>!drafted.includes(p.id))}
+function myPlayers(){return history.filter(h=>h.team===slot).map(h=>players.find(p=>p.id===h.id)).filter(Boolean)}
+function counts(){let c={QB:0,RB:0,WR:0,TE:0};myPlayers().forEach(p=>c[p.pos]++);return c}
+function expected(){return blueprint[Math.min(info().r-1,5)]||"BPA"}
+function fit(p){let e=expected();return e==="BPA"?0:e===p.pos?18:e.includes(p.pos)?15:-4}
+function gerardScore(p){let c=counts(),s=180-p.overall*1.12+fit(p)+(p.bdgeBoost||0);if(p.pos==="RB"&&c.RB<2)s+=13;if(p.pos==="WR"&&c.WR<3)s+=13;if(p.pos==="QB"&&c.QB>=1)s-=25;if(p.pos==="TE"&&c.TE>=1)s-=18;if(p.pos==="QB"&&info().r<3)s-=20;if(p.pos==="TE"&&info().r<2)s-=10;if(p.bdgeAvoid)s-=10;return s}
+function recommendations(){return [...available()].sort((a,b)=>gerardScore(b)-gerardScore(a)).slice(0,5)}
+function rationale(p){let b=[],e=expected();if(e===p.pos||e.includes(p.pos))b.push("fits Gerard Blueprint");let fall=Math.max(0,pick-p.overall);if(fall>=8)b.push(`value fall: ${fall} picks`);if(p.bdgeLabels?.length)b.push(`BDGE: ${p.bdgeLabels[0]}`);if(p.overallTier==="S"||p.overallTier==="A")b.push("top-tier talent");if(["RB","WR"].includes(p.pos))b.push("weekly-ceiling core");return b.slice(0,3).join(" • ")||"best blended value available"}
+function selectPlayer(id,team){if(drafted.includes(id))return;drafted.push(id);history.push({pick,id,team});pick++;renderAll()}
+function aiScore(p,team){let profile=aiProfiles[team]||"Balanced",s=150-p.overall+Math.random()*(style==="chaotic"?35:style==="conservative"?8:18),owned=history.filter(h=>h.team===team).map(h=>players.find(p=>p.id===h.id)).filter(Boolean),c={QB:0,RB:0,WR:0,TE:0};owned.forEach(x=>c[x.pos]++);if(profile==="Hero RB"&&p.pos==="RB"&&c.RB<1)s+=30;if(profile==="Zero RB"&&p.pos==="WR"&&c.WR<4)s+=25;if(profile==="WR Heavy"&&p.pos==="WR")s+=20;if(profile==="Early QB"&&p.pos==="QB"&&c.QB<1&&Math.ceil(pick/10)<=5)s+=28;if(profile==="Elite TE"&&p.pos==="TE"&&c.TE<1)s+=25;if(profile==="Rookie Chaser"&&p.rookie)s+=25;if(profile==="Chaos")s+=Math.random()*45;if(c[p.pos]>=3&&["QB","TE"].includes(p.pos))s-=45;return s}
+async function simulateToMe(){if(mode!=="practice")return;while(teamForPick(pick)!==slot&&pick<=160){let team=teamForPick(pick),pool=available().slice(0,Math.min(28,available().length));pool.sort((a,b)=>aiScore(b,team)-aiScore(a,team));selectPlayer(pool[0].id,team);await new Promise(r=>setTimeout(r,130))}}
+function rosterRows(){let ps=myPlayers(),used=[],rows=[];function take(pos){let p=ps.find(x=>x.pos===pos&&!used.includes(x.id));if(p)used.push(p.id);return p}for(let s of rosterSlots){let p=null;if(s==="QB")p=take("QB");else if(s.startsWith("RB"))p=take("RB");else if(s.startsWith("WR"))p=take("WR");else if(s==="TE")p=take("TE");else if(s.startsWith("FLEX")){p=ps.find(x=>["RB","WR","TE"].includes(x.pos)&&!used.includes(x.id));if(p)used.push(p.id)}else if(s.startsWith("BENCH")){p=ps.find(x=>!used.includes(x.id));if(p)used.push(p.id)}rows.push([s,p])}return rows}
+function renderRecommendation(){let recs=recommendations(),p=recs[0],onClock=teamForPick(pick)===slot;recommendation.innerHTML=`<div style="font-weight:900;color:${onClock?"var(--green)":"var(--yellow)"}">${onClock?"⭐ YOU ARE ON THE CLOCK":"Watching the board"}</div><h2>${p.name}</h2><div class="tagrow"><span class="tag">${p.pos}${p.posRank||""}</span><span class="tag">${p.team}</span><span class="tag">Bye ${p.bye}</span><span class="tag">FL ${p.overallTier}</span>${p.bdgeRank?`<span class="tag">BDGE ${p.pos}${p.bdgeRank}</span>`:""}</div><div class="reason">${rationale(p)}</div><button class="primary" style="width:100%" onclick="selectPlayer(${p.id},${slot})">Draft ${p.name}</button>`;alternatives.innerHTML=recs.slice(1).map((x,i)=>`<div class="alt"><div class="rank">${i+2}</div><div class="info"><b>${x.name}</b><div class="meta">${x.pos}${x.posRank||""} • ${x.team} • ${rationale(x)}</div></div><button class="ghost" onclick="selectPlayer(${x.id},${slot})">Mine</button><button class="ghost" onclick="selectPlayer(${x.id},${teamForPick(pick)})">Other</button></div>`).join("")}
+function renderBoard(){let cols=[];for(let t=1;t<=10;t++){let cells=[];for(let r=1;r<=16;r++){let pnum=(r-1)*10+(r%2?t:11-t),h=history.find(x=>x.pick===pnum),pl=h?players.find(x=>x.id===h.id):null;cells.push(`<div class="pickCell ${pnum===pick?"current":""} ${h&&h.team===slot?"mine":""}"><span class="pn">${pnum}</span><span class="name">${pl?pl.name:(pnum===pick?"ON CLOCK":"—")}</span></div>`)}cols.push(`<div class="teamCol ${t===slot?"you":""}"><div class="teamHead">${t===slot?"⭐ YOU":"Team "+t}<small>${t===slot?"Gerard Mode":aiProfiles[t]||"Manual"}</small></div>${cells.join("")}</div>`)}desktopBoard.innerHTML=cols.join("");draftBoard.innerHTML=cols.join("")}
+function renderRoster(){let rows=rosterRows().map(([s,p])=>`<div class="rosterRow"><span>${s}</span><span class="${p?"":"empty"}">${p?p.name:"—"}</span></div>`).join("");roster.innerHTML=rows;mRoster.innerHTML=rows;let ss=[];for(let t=1;t<=10;t++)ss.push(`<div class="strategy"><span>${t===slot?"⭐ YOU":"Team "+t}</span><span class="pill">${t===slot?"Gerard Blueprint":aiProfiles[t]||"Manual"}</span></div>`);strategies.innerHTML=ss.join("");mStrategies.innerHTML=ss.join("")}
+function setPos(p){posFilter=p;renderPlayers()}
+function renderPlayers(){let q=((document.getElementById("search")?.value||document.getElementById("dSearch")?.value||"")).toLowerCase(),list=available().filter(p=>(posFilter==="ALL"||p.pos===posFilter)&&p.name.toLowerCase().includes(q)).slice(0,140),markup=list.map(p=>`<div class="playerRow"><span>${p.overall}</span><div><b>${p.name}</b><div class="meta">${p.team} • Bye ${p.bye} • FL ${p.overallTier}</div></div><span>${p.pos}${p.posRank||""}</span><div><button class="ghost" onclick="selectPlayer(${p.id},${slot})">Mine</button> <button class="ghost" onclick="selectPlayer(${p.id},${teamForPick(pick)})">Other</button></div></div>`).join("");playersList.innerHTML=markup;dPlayersList.innerHTML=markup}
+function renderMeta(){let i=info();round.textContent=i.r;mRound.textContent=i.r;pickLabel.textContent=i.r+"."+String(i.ip).padStart(2,"0");mPickLabel.textContent=pickLabel.textContent;until.textContent=i.until;mUntil.textContent=i.until}
+function renderAll(){renderMeta();renderRecommendation();renderBoard();renderRoster();renderPlayers()}
+function showPage(id){document.querySelectorAll(".mobilePage").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active")}
 init();
-</script>
-</body></html>
+</script></body></html>
