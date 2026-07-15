@@ -25,22 +25,76 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 6px;border-bottom:1p
 .slot{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #25334a}.empty{color:#718097}.note{font-size:11px;color:var(--muted);line-height:1.48}.good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
 .warnbox{border-left:3px solid var(--warn);padding:9px;background:#1b2638;border-radius:9px}.blueprint{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}.bp{padding:7px 3px;text-align:center;border-radius:8px;background:#0d1726;color:#74849a;font-size:10px}.bp.done{background:#17482f;color:#8eebba}.bp.next{outline:2px solid var(--accent);color:#dbe8ff}
 .cpi{font-size:28px;font-weight:950}.mobile-nav,.mobile-view{display:none}.evidence-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.evidence{background:#0b1524;border-radius:10px;padding:9px}.evidence b{display:block;font-size:12px}.pref{display:flex;gap:5px;flex-wrap:wrap}.pref button.active{background:#244e7f}
+
+.draft-track{display:grid;grid-template-columns:repeat(10,minmax(54px,1fr));gap:5px;overflow-x:auto;padding-bottom:3px}
+.teamcell{min-width:54px;background:#0b1524;border:1px solid #293952;border-radius:9px;padding:7px 4px;text-align:center;font-size:10px}
+.teamcell.current{outline:2px solid var(--warn);background:#2a2513}
+.teamcell.you{border-color:#4e8cdc;color:#cfe0ff}
+.teamcell.you.current{outline:2px solid var(--good);background:#123425}
+.teamcell .teamnum{font-weight:900;font-size:12px}.teamcell .picknum{color:var(--muted);font-size:9px;margin-top:2px}
+.pick-strip{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.pick-card{min-width:135px;background:#0b1524;border:1px solid #293952;border-radius:10px;padding:8px}
+.pick-card.current{outline:2px solid var(--warn)}.pick-card.you{border-color:#4e8cdc}.pick-card.you.current{outline-color:var(--good)}
+.pick-card b{display:block;font-size:11px}.pick-card span{font-size:10px;color:var(--muted)}
+.board-grid{display:grid;grid-template-columns:repeat(10,minmax(100px,1fr));gap:5px;overflow:auto;max-height:360px}
+.board-col{background:#0b1524;border-radius:10px;padding:6px;min-width:100px}
+.board-col.you{border:1px solid #4e8cdc}.board-head{font-size:10px;font-weight:900;text-align:center;padding:4px;color:#dce8fa}
+.board-pick{font-size:9px;padding:5px;border-top:1px solid #24344b;min-height:35px}
+.board-pick.current{background:#302a13;border-radius:6px}.board-pick.mine{background:#133523;border-radius:6px}
+.board-pick .pnum{color:var(--muted)}.board-pick .pname{display:block;font-weight:750;margin-top:2px}
+
+
+.mode-gate{max-width:760px;margin:26px auto}.mode-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mode-choice{padding:22px;border-radius:16px;border:1px solid var(--line);background:var(--panel);cursor:pointer}
+.mode-choice h2{margin:0 0 7px;font-size:21px}.mode-choice p{margin:0;color:var(--muted);line-height:1.45}
+.mode-choice.practice{border-color:#3e8e62}.mode-choice.live{border-color:#477fc5}
+.mode-banner{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 11px;border-radius:11px;margin-bottom:10px}
+.mode-banner.practice{background:#123523;border:1px solid #3e8e62;color:#9bf0c0}
+.mode-banner.live{background:#142c4c;border:1px solid #477fc5;color:#b8d5ff}
+.mode-banner b{font-size:12px}.mode-banner button{padding:5px 8px;font-size:10px}
+.practice-only,.live-only{display:none}
+body.practice-mode .practice-only{display:block}
+body.live-mode .live-only{display:block}
+body.live-mode .hero{background:linear-gradient(145deg,#17365f,#172338)}
+body.practice-mode .hero{background:linear-gradient(145deg,#173f2e,#172b24);border-color:#3e8e62}
+
 @media(max-width:900px){
+ .mode-options{grid-template-columns:1fr}.mode-gate{margin:14px auto}
  .desktop{display:none}.mobile-view.active{display:block}.mobile-nav{display:grid;position:fixed;left:0;right:0;bottom:0;z-index:40;grid-template-columns:repeat(5,1fr);background:#091321;border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
  .mobile-nav button{border:0;background:transparent;padding:5px 1px;font-size:9px}.heroName{font-size:29px}.card{padding:12px;margin-bottom:9px}.mobile-row{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
 }
 </style>
 </head>
 <body>
-<header><h1>Gerard Fantasy HQ</h1><div class="sub">Version 1.1 • Gerard Mode • simple draft-day view, deeper evidence behind a tap</div></header>
+<header><h1>Gerard Fantasy HQ</h1><div class="sub">Version 1.3 • Gerard Mode • simple draft-day view, deeper evidence behind a tap</div></header>
 <div class="shell">
+<div id="modeGate" class="mode-gate">
+  <div class="card">
+    <div class="title">What are we doing today?</div>
+    <div class="mode-options">
+      <div class="mode-choice practice" onclick="startMode('practice')">
+        <h2>🟢 Practice Mock Draft</h2>
+        <p>AI opponents draft the other teams. Auto-pick advances the simulation and stops when you are on the clock.</p>
+      </div>
+      <div class="mode-choice live" onclick="startMode('live')">
+        <h2>🔵 Live Draft Day</h2>
+        <p>No AI and no automatic selections. You manually enter each real pick as your league drafts.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="appContent" style="display:none">
 
-<div class="desktop">
+
+<div class="desktop"><div style="grid-column:1/-1" id="desktopModeBanner"></div>
 <section>
 <div class="card"><div class="title">Draft setup <span class="mode">GERARD MODE</span></div>
 <div class="grid2"><label>Draft slot<select id="dSlot"></select></label><label>Overall pick<input id="dPick" type="number" min="1" value="1"></label></div>
 <div class="stats"><div class="stat"><b id="dRound">1</b>Round</div><div class="stat"><b id="dPickLabel">1.01</b>Pick</div><div class="stat"><b id="dUntil">NOW</b>Until yours</div></div>
-<div style="margin-top:8px"><button onclick="undo()">Undo</button> <button onclick="resetAll()">Reset</button> <button onclick="autoPickOthers()">Auto-pick to me</button></div></div>
+<div style="margin-top:8px"><button onclick="undo()">Undo</button> <button onclick="resetAll()">Reset</button> <button class="practice-only" onclick="autoPickOthers()">Auto-pick to me</button></div><div class="live-only note" style="margin-top:8px">Enter each real selection using the <b>Other</b> or <b>Mine</b> buttons. The app will advance one pick at a time.</div></div>
+<div class="card"><div class="title">Snake draft order</div><div id="dTeamTrack" class="draft-track"></div><div id="dTurnSummary" class="note" style="margin-top:7px"></div></div>
+<div class="card"><div class="title">Recent and upcoming picks</div><div id="dPickStrip" class="pick-strip"></div></div>
+<div class="card"><div class="title">Full draft board</div><div id="dDraftBoard" class="board-grid"></div></div>
 <div class="card"><div class="title">Blueprint</div><div id="dBlueprint" class="blueprint"></div><div id="dBpStatus" class="note" style="margin-top:7px"></div></div>
 <div class="card"><div class="title">Your roster</div><div id="dRoster"></div></div>
 <div class="card"><div class="title">Bye weeks</div><div id="dByes" class="note"></div></div>
@@ -64,11 +118,13 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 6px;border-bottom:1p
 </section>
 </div>
 
-<section id="mDraft" class="mobile-view active">
+<section id="mDraft" class="mobile-view active"><div id="mobileModeBanner"></div>
 <div class="card"><div class="stats"><div class="stat"><b id="mRound">1</b>Round</div><div class="stat"><b id="mPickLabel">1.01</b>Pick</div><div class="stat"><b id="mUntil">NOW</b>Until yours</div></div></div>
+<div class="card"><div class="title">Draft order</div><div id="mTeamTrack" class="draft-track"></div><div id="mTurnSummary" class="note" style="margin-top:7px"></div></div>
+<div class="card"><div class="title">Recent and upcoming</div><div id="mPickStrip" class="pick-strip"></div></div>
 <div id="mHero" class="card hero"></div>
 <div class="card"><div class="title">Other options</div><div id="mAlts"></div></div>
-<div class="card"><button onclick="autoPickOthers()">Auto-pick to me</button> <button onclick="undo()">Undo</button></div>
+<div class="card"><button class="practice-only" onclick="autoPickOthers()">Auto-pick to me</button> <button onclick="undo()">Undo</button><div class="live-only note" style="margin-top:8px">In Live Draft Day mode, use the Board screen to record each real pick.</div></div>
 </section>
 
 <section id="mBoardView" class="mobile-view">
@@ -78,6 +134,9 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 6px;border-bottom:1p
 
 <section id="mTeam" class="mobile-view">
 <div class="card"><div class="title">Your roster</div><div id="mRoster"></div></div>
+<div class="card"><div class="title">Snake draft order</div><div id="dTeamTrack" class="draft-track"></div><div id="dTurnSummary" class="note" style="margin-top:7px"></div></div>
+<div class="card"><div class="title">Recent and upcoming picks</div><div id="dPickStrip" class="pick-strip"></div></div>
+<div class="card"><div class="title">Full draft board</div><div id="dDraftBoard" class="board-grid"></div></div>
 <div class="card"><div class="title">Blueprint</div><div id="mBlueprintText" class="note"></div></div>
 <div class="card"><div class="title">Practice CPI</div><div class="cpi"><span id="mCpi">10.0</span>%</div><div id="mOutlook" class="note"></div></div>
 </section>
@@ -94,17 +153,62 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 6px;border-bottom:1p
 <div class="card"><div class="title">Default blueprint</div><div class="note">RB → WR → WR → RB → TE/QB → QB/TE, then best available. Value Override can break the pattern.</div></div>
 </section>
 </div>
+</div>
 <nav class="mobile-nav"><button onclick="showMobile('mDraft')">🏈<br>Draft</button><button onclick="showMobile('mBoardView')">📋<br>Board</button><button onclick="showMobile('mTeam')">👥<br>Team</button><button onclick="showMobile('mEvidence')">🧠<br>Evidence</button><button onclick="showMobile('mSetup')">⚙️<br>Setup</button></nav>
 
 <script>
-let players=[],drafted=[],mine=[],history=[],filter="ALL",selectedId=null;
+let players=[],drafted=[],mine=[],history=[],filter="ALL",selectedId=null,currentMode=null;
 const blueprint=["RB","WR","WR","RB","TE/QB","QB/TE"];
 const rosterSlots=["QB","RB1","RB2","WR1","WR2","WR3","TE","FLEX1","FLEX2","K","DEF","BENCH1","BENCH2","BENCH3","BENCH4","BENCH5"];
-async function init(){players=await fetch("data/players.json").then(r=>r.json());for(let i=1;i<=10;i++){for(const id of["dSlot","mSlot"]){let o=document.createElement("option");o.value=i;o.textContent=i;document.getElementById(id).appendChild(o)}}document.getElementById("dSlot").value=10;document.getElementById("mSlot").value=10;wire();load();renderAll();if("serviceWorker"in navigator)navigator.serviceWorker.register("service-worker.js")}
+
+function startMode(mode,fromLoad=false){
+ currentMode=mode;
+ document.body.classList.remove("practice-mode","live-mode");
+ document.body.classList.add(mode==="practice"?"practice-mode":"live-mode");
+ modeGate.style.display="none";
+ appContent.style.display="block";
+ const practice=mode==="practice";
+ const banner=`<div class="mode-banner ${practice?'practice':'live'}"><b>${practice?'🟢 PRACTICE MOCK DRAFT':'🔵 LIVE DRAFT DAY'}</b><button onclick="changeMode()">Change mode</button></div>`;
+ desktopModeBanner.innerHTML=banner;
+ mobileModeBanner.innerHTML=banner;
+ if(!fromLoad)save();
+ renderAll();
+}
+function changeMode(){
+ currentMode=null;
+ document.body.classList.remove("practice-mode","live-mode");
+ appContent.style.display="none";
+ modeGate.style.display="block";
+ localStorage.removeItem("gfhv13");
+ drafted=[];mine=[];history=[];
+ dPick.value=1;mPick.value=1;
+}
+
+async function init(){players=await fetch("data/players.json").then(r=>r.json());for(let i=1;i<=10;i++){for(const id of["dSlot","mSlot"]){let o=document.createElement("option");o.value=i;o.textContent=i;document.getElementById(id).appendChild(o)}}document.getElementById("dSlot").value=10;document.getElementById("mSlot").value=10;wire();load();if(!currentMode){modeGate.style.display="block";appContent.style.display="none"}else{renderAll()}if("serviceWorker"in navigator)navigator.serviceWorker.register("service-worker.js")}
 function wire(){dSlot.onchange=e=>{mSlot.value=e.target.value;save();renderAll()};mSlot.onchange=e=>{dSlot.value=e.target.value;save();renderAll()};dPick.oninput=e=>{mPick.value=e.target.value;save();renderAll()};mPick.oninput=e=>{dPick.value=e.target.value;save();renderAll()}}
-function save(){let prefs={};players.forEach(p=>prefs[p.id]=p.gerardPreference);localStorage.setItem("gfhv11",JSON.stringify({drafted,mine,history,slot:+dSlot.value,pick:+dPick.value,prefs}))}
-function load(){try{let s=JSON.parse(localStorage.getItem("gfhv11"));if(!s)return;drafted=s.drafted||[];mine=s.mine||[];history=s.history||[];dSlot.value=s.slot||10;mSlot.value=s.slot||10;dPick.value=s.pick||1;mPick.value=s.pick||1;if(s.prefs)players.forEach(p=>p.gerardPreference=s.prefs[p.id]||"neutral")}catch(e){}}
+function save(){let prefs={};players.forEach(p=>prefs[p.id]=p.gerardPreference);localStorage.setItem("gfhv13",JSON.stringify({drafted,mine,history,slot:+dSlot.value,pick:+dPick.value,prefs,mode:currentMode}))}
+function load(){try{let s=JSON.parse(localStorage.getItem("gfhv13"));if(!s)return;drafted=s.drafted||[];mine=s.mine||[];history=s.history||[];dSlot.value=s.slot||10;mSlot.value=s.slot||10;dPick.value=s.pick||1;mPick.value=s.pick||1;if(s.prefs)players.forEach(p=>p.gerardPreference=s.prefs[p.id]||"neutral");if(s.mode)startMode(s.mode,true)}catch(e){}}
 function info(){let p=+dPick.value||1,r=Math.ceil(p/10),ip=(p-1)%10+1,s=+dSlot.value,mp=r%2?s:11-s,next;if(ip<=mp)next=p+(mp-ip);else{let nr=r+1,np=nr%2?s:11-s;next=r*10+np}return{p,r,ip,until:next-p}}
+
+function teamForPick(p){
+ let r=Math.ceil(p/10),pos=(p-1)%10+1;
+ return r%2===1?pos:11-pos;
+}
+function pickInRound(p){return (p-1)%10+1}
+function teamName(t){return t===+dSlot.value?"YOU":"Team "+t}
+function nextUserPickAfter(p){
+ let s=+dSlot.value,r=Math.ceil(p/10),candidate;
+ for(let rr=r;rr<=30;rr++){
+   candidate=(rr-1)*10+(rr%2===1?s:11-s);
+   if(candidate>=p)return candidate;
+ }
+ return null;
+}
+function pickRecord(p){
+ let h=history.find(h=>h.pick===p);
+ return h?player(h.id):null;
+}
+
 function counts(){let c={QB:0,RB:0,WR:0,TE:0};mine.forEach(id=>{let x=player(id);if(x)c[x.pos]++});return c}
 function expected(){return blueprint[Math.min(info().r-1,5)]||"BPA"}function fit(x){let e=expected();if(e===x.pos)return 18;if(e.includes(x.pos))return 16;if(e==="BPA")return 0;return-6}
 function gap(x){return Math.max(0,info().p-x.overall)}function prefBoost(x){return{xLove:0,love:8,neutral:0,cautious:-6,avoid:-14}[x.gerardPreference]||0}
@@ -113,7 +217,20 @@ function score(x){let c=counts(),s=150-x.overall*1.18+fit(x)+(x.bdgeBoost||0)+pr
 function avail(){return players.filter(x=>!drafted.includes(x.id))}function recs(){return[...avail()].sort((a,b)=>score(b)-score(a)).slice(0,5)}
 function why(x){let r=[];if(fit(x)>10)r.push("fits blueprint");if(gap(x)>=8)r.push("fell "+gap(x)+" spots");if(x.gerardPreference!=="neutral")r.push("Gerard: "+x.gerardPreference);if(x.bdgeLabels?.length)r.push("BDGE: "+x.bdgeLabels.slice(0,1));if(x.bdgeAvoid)r.push(gap(x)>=15?"discount offsets avoid":"avoid-at-cost warning");if(x.rookie)r.push(counts()[x.pos]<2?"rookie caution":"rookie upside role");return r.join(" • ")||"best blended value"}
 function player(id){return players.find(p=>p.id===id)}function pickPlayer(id,isMine){if(drafted.includes(id))return;drafted.push(id);if(isMine)mine.push(id);history.push({pick:info().p,id,isMine});let np=info().p+1;dPick.value=np;mPick.value=np;save();renderAll()}
-function autoPickOthers(){let g=0;while(info().until>0&&g<25){let pool=avail().slice(0,Math.min(9,avail().length));if(!pool.length)break;pickPlayer(pool[Math.floor(Math.random()*pool.length)].id,false);g++}}
+let autoRunning=false;
+async function autoPickOthers(){
+ if(currentMode!=="practice")return;
+ if(autoRunning)return;
+ autoRunning=true;
+ while(info().until>0){
+   let pool=avail().slice(0,Math.min(9,avail().length));
+   if(!pool.length)break;
+   let x=pool[Math.floor(Math.random()*pool.length)];
+   pickPlayer(x.id,false);
+   await new Promise(r=>setTimeout(r,220));
+ }
+ autoRunning=false;
+}}
 function undo(){let h=history.pop();if(!h)return;drafted=drafted.filter(id=>id!==h.id);if(h.isMine)mine=mine.filter(id=>id!==h.id);let np=Math.max(1,(+dPick.value||1)-1);dPick.value=np;mPick.value=np;save();renderAll()}
 function resetAll(){drafted=[];mine=[];history=[];dPick.value=1;mPick.value=1;save();renderAll()}function setFilter(f){filter=f;renderBoard()}
 function renderHero(el,altsEl){let x=recs()[0],st=status(x);document.getElementById(el).innerHTML=`<div class="${st[1]}" style="font-weight:900">${st[0]}</div><div class="heroName">${x.name}</div><div class="chips"><span class="chip">${x.pos}${x.posRank||""}</span><span class="chip">${x.team}</span><span class="chip">Bye ${x.bye}</span><span class="chip">FL ${x.overallTier}</span>${x.bdgeRank?`<span class="chip">BDGE ${x.pos}${x.bdgeRank}</span>`:""}</div><div class="reason">${why(x)}</div><button class="primary" style="width:100%" onclick="pickPlayer(${x.id},true)">Draft ${x.name}</button>`;document.getElementById(altsEl).innerHTML=recs().slice(1).map((x,i)=>`<div class="alt"><span class="n">${i+2}</span><div class="p"><b>${x.name}</b><div class="meta">${x.pos}${x.posRank||""} • ${x.team} • ${status(x)[0]}</div></div><button class="btnsm mine" onclick="pickPlayer(${x.id},true)">Mine</button><button class="btnsm other" onclick="pickPlayer(${x.id},false)">Other</button></div>`).join("")}
@@ -126,9 +243,48 @@ function renderRoster(){let rows=rosterAssignments();dRoster.innerHTML=rows.map(
 function renderBlueprint(){let picks=mine.slice(0,6).map(player);dBlueprint.innerHTML=blueprint.map((b,i)=>`<div class="bp ${picks[i]?'done':i===picks.length?'next':''}">${picks[i]?picks[i].pos:b}</div>`).join("");let match=picks.filter((p,i)=>blueprint[i]===p.pos||blueprint[i]?.includes(p.pos)).length;dBpStatus.textContent=picks.length?Math.round(match/picks.length*100)+"% on blueprint":"RB → WR → WR → RB → TE/QB → QB/TE";mBlueprintText.innerHTML=blueprint.map((b,i)=>`${i+1}. ${picks[i]?picks[i].pos+" — "+picks[i].name:b}`).join("<br>")}
 function cpi(){let c=counts(),v=10+mine.map(player).reduce((s,x)=>s+Math.max(0,130-x.overall)/75,0)+Math.min(c.RB,2)*.6+Math.min(c.WR,3)*.5+Math.min(c.QB,1)*.4+Math.min(c.TE,1)*.4;return Math.min(34,v)}
 function chaos(){let other=history.filter(h=>!h.isMine),reach=other.filter(h=>player(h.id).overall-h.pick>=12).length,rate=other.length?reach/other.length:0;if(rate>.25)return["High","Frequent reaches are creating value falls."];if(rate>.1)return["Moderate","Some reaches are creating pivot opportunities."];return["Calm","The room is mostly following the board."]}
+
+function renderDraftTracker(){
+ let i=info(),currentTeam=teamForPick(i.p),userSlot=+dSlot.value;
+ let teams=[];
+ for(let t=1;t<=10;t++){
+   let next=null;
+   for(let p=i.p;p<=i.p+20;p++){if(teamForPick(p)===t){next=p;break}}
+   teams.push(`<div class="teamcell ${t===currentTeam?'current':''} ${t===userSlot?'you':''}"><div class="teamnum">${t===userSlot?'⭐ YOU':'T'+t}</div><div class="picknum">${t===currentTeam?'ON CLOCK':next?'Pick '+next:'—'}</div></div>`);
+ }
+ dTeamTrack.innerHTML=teams.join("");mTeamTrack.innerHTML=teams.join("");
+ let nextMine=nextUserPickAfter(i.p),afterMine=nextUserPickAfter((nextMine||i.p)+1);
+ let summary=currentTeam===userSlot
+   ?`<b class="good">You are on the clock at Pick ${i.p}.</b> Your following pick is ${afterMine||"—"}.`
+   :`<b>${teamName(currentTeam)}</b> is on the clock at Pick ${i.p}. You pick at ${nextMine}, ${Math.max(0,nextMine-i.p)} pick${nextMine-i.p===1?'':'s'} away.${currentMode==="live"?" Record the real selection from the Board screen.":""}`;
+ dTurnSummary.innerHTML=summary;mTurnSummary.innerHTML=summary;
+
+ let cards=[];
+ let start=Math.max(1,i.p-3),end=i.p+6;
+ for(let p=start;p<=end;p++){
+   let t=teamForPick(p),x=pickRecord(p),isYou=t===userSlot;
+   cards.push(`<div class="pick-card ${p===i.p?'current':''} ${isYou?'you':''}"><b>${p}. ${isYou?'⭐ YOU':'Team '+t}</b><span>${x?x.name:(p===i.p?'On the clock':'Upcoming')}</span></div>`);
+ }
+ dPickStrip.innerHTML=cards.join("");mPickStrip.innerHTML=cards.join("");
+
+ let cols=[];
+ for(let t=1;t<=10;t++){
+   let picks=[];
+   for(let p=1;p<=160;p++){
+     if(teamForPick(p)!==t)continue;
+     let x=pickRecord(p);
+     let cls=p===i.p?'current':(x&&history.find(h=>h.pick===p)?.isMine?'mine':'');
+     picks.push(`<div class="board-pick ${cls}"><span class="pnum">${p}</span><span class="pname">${x?x.name:(p===i.p?'On clock':'—')}</span></div>`);
+     if(picks.length>=16)break;
+   }
+   cols.push(`<div class="board-col ${t===userSlot?'you':''}"><div class="board-head">${t===userSlot?'⭐ YOU':'Team '+t}</div>${picks.join("")}</div>`);
+ }
+ dDraftBoard.innerHTML=cols.join("");
+}
+
 function renderMeta(){let i=info();for(let p of["d","m"]){document.getElementById(p+"Round").textContent=i.r;document.getElementById(p+"PickLabel").textContent=i.r+"."+String(i.ip).padStart(2,"0");document.getElementById(p+"Until").textContent=i.until===0?"NOW":i.until}dClock.innerHTML=i.until===0?'<b class="good">YOUR PICK</b><br>Preferred position: '+expected():`Next pick in <b>${i.until}</b>. Preferred position: <b>${expected()}</b>`;let cp=cpi();dCpi.textContent=cp.toFixed(1);mCpi.textContent=cp.toFixed(1);let c=counts(),out=`RB ${Math.min(c.RB,2)}/2 • WR ${Math.min(c.WR,3)}/3 • QB ${Math.min(c.QB,1)}/1 • TE ${Math.min(c.TE,1)}/1`;dOutlook.textContent=out;mOutlook.textContent=out;let ch=chaos();dChaos.textContent=ch[0];dChaosNote.textContent=ch[1];dHistory.innerHTML=history.length?history.slice().reverse().map(h=>`<div style="padding:5px 0;border-bottom:1px solid #25334a">${h.pick}. ${player(h.id).name} ${h.isMine?'<b class="good">YOU</b>':'Other'}</div>`).join(""):"No selections entered."}
 function showMobile(id){document.querySelectorAll(".mobile-view").forEach(v=>v.classList.remove("active"));document.getElementById(id).classList.add("active");renderAll()}
-function renderAll(){if(!players.length)return;renderMeta();renderHero("dHero","dAlts");renderHero("mHero","mAlts");renderBoard();renderRoster();renderBlueprint();renderPrefs()}
+function renderAll(){if(!players.length)return;renderMeta();renderDraftTracker();renderHero("dHero","dAlts");renderHero("mHero","mAlts");renderBoard();renderRoster();renderBlueprint();renderPrefs()}
 init();
 </script>
 </body></html>
