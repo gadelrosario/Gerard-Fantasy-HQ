@@ -1,18 +1,5 @@
-# Gerard Fantasy HQ — Version 2.0 Alpha 1
+# Gerard Fantasy HQ — Version 2.0 Alpha 2
 
-Install this only while GitHub Desktop is on the `Version-2` branch.
+New: 17 rounds, full 10-manager assignment, dark purple/gold theme, dynamic pick accents, first Mamba Score, Steal Risk, run detector, and league-aware mock behavior.
 
-Included:
-- Practice and Live Draft modes
-- Draft positions 1–10
-- Visual 10-team, 16-round snake board
-- Full roster tracking
-- Gerard Blueprint recommendations
-- AI teams with varied draft strategies
-- Simulate Until My Pick
-- Available-player board
-- Offline PWA support
-
-Commit message: `Version 2 Alpha 1`
-
-Your Version 1.3 public app remains safe on `main`.
+Install only on the `Version-2` branch. Commit as: `Version 2 Alpha 2 - League Intelligence`.
